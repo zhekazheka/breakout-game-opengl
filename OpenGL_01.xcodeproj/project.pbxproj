@@ -15,6 +15,8 @@
 		35F58C551F58B47F0094854C /* libassimp.4.0.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F58C4D1F58B47F0094854C /* libassimp.4.0.1.dylib */; };
 		35F58C571F58B47F0094854C /* libglfw.3.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 35F58C511F58B47F0094854C /* libglfw.3.2.dylib */; };
 		35F58DA01F58B5D60094854C /* glm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35F58CB51F58B5D60094854C /* glm.cpp */; };
+		8418F55D1F894BDB00DDA4B1 /* game-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8418F55B1F894BDB00DDA4B1 /* game-object.cpp */; };
+		8418F5601F894C5700DDA4B1 /* game-level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8418F55E1F894C5700DDA4B1 /* game-level.cpp */; };
 		842C32771F86BBE1007BF8BB /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 842C32761F86BBE1007BF8BB /* libfreetype.6.dylib */; };
 		84845B081F1D40260073978C /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84845AF01F1D40130073978C /* libSOIL.a */; };
 		84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B121F1D44DF0073978C /* image_DXT.c */; };
@@ -433,6 +435,18 @@
 		8402BC921F7C287000D97CB6 /* BlinnPhong.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlinnPhong.vert; sourceTree = "<group>"; };
 		8402BC991F7C399400D97CB6 /* GammaCorrection.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GammaCorrection.frag; sourceTree = "<group>"; };
 		8402BC9A1F7C399400D97CB6 /* GammaCorrection.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GammaCorrection.vert; sourceTree = "<group>"; };
+		8418F55B1F894BDB00DDA4B1 /* game-object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "game-object.cpp"; sourceTree = "<group>"; };
+		8418F55C1F894BDB00DDA4B1 /* game-object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "game-object.h"; sourceTree = "<group>"; };
+		8418F55E1F894C5700DDA4B1 /* game-level.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "game-level.cpp"; sourceTree = "<group>"; };
+		8418F55F1F894C5700DDA4B1 /* game-level.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "game-level.h"; sourceTree = "<group>"; };
+		8418F5621F89527700DDA4B1 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
+		8418F5631F89527700DDA4B1 /* block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = block.png; sourceTree = "<group>"; };
+		8418F5641F89527700DDA4B1 /* block_solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = block_solid.png; sourceTree = "<group>"; };
+		8418F5661F89528000DDA4B1 /* four.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = four.lvl; sourceTree = "<group>"; };
+		8418F5671F89528000DDA4B1 /* one.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = one.lvl; sourceTree = "<group>"; };
+		8418F5681F89528000DDA4B1 /* three.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = three.lvl; sourceTree = "<group>"; };
+		8418F5691F89528000DDA4B1 /* two.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = two.lvl; sourceTree = "<group>"; };
+		8418F56A1F89556A00DDA4B1 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
 		842C32161F86B2C0007BF8BB /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		842C32171F86B2C0007BF8BB /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		842C32181F86B2C0007BF8BB /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -1285,6 +1299,7 @@
 		35FDB0BA1EA929FC00A51757 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8418F5651F89528000DDA4B1 /* Levels */,
 				842C327B1F86C2BE007BF8BB /* Fonts */,
 				35F58DDB1F58CBFB0094854C /* Models */,
 				35FDB0BB1EA929FC00A51757 /* Textures */,
@@ -1295,6 +1310,7 @@
 		35FDB0BB1EA929FC00A51757 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				8418F5611F89527700DDA4B1 /* LevelAssets */,
 				84A3EC1A1F8930DF00EDCCB8 /* awesomeface.png */,
 				84BB90761F6E977B00D0A447 /* Cubemaps */,
 				84C70B711F606DBC006FF65D /* grass.png */,
@@ -1335,6 +1351,37 @@
 				8402BC9A1F7C399400D97CB6 /* GammaCorrection.vert */,
 			);
 			path = 02;
+			sourceTree = "<group>";
+		};
+		8418F55A1F894BCA00DDA4B1 /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				8418F55B1F894BDB00DDA4B1 /* game-object.cpp */,
+				8418F55C1F894BDB00DDA4B1 /* game-object.h */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		8418F5611F89527700DDA4B1 /* LevelAssets */ = {
+			isa = PBXGroup;
+			children = (
+				8418F56A1F89556A00DDA4B1 /* paddle.png */,
+				8418F5621F89527700DDA4B1 /* background.jpg */,
+				8418F5631F89527700DDA4B1 /* block.png */,
+				8418F5641F89527700DDA4B1 /* block_solid.png */,
+			);
+			path = LevelAssets;
+			sourceTree = "<group>";
+		};
+		8418F5651F89528000DDA4B1 /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				8418F5661F89528000DDA4B1 /* four.lvl */,
+				8418F5671F89528000DDA4B1 /* one.lvl */,
+				8418F5681F89528000DDA4B1 /* three.lvl */,
+				8418F5691F89528000DDA4B1 /* two.lvl */,
+			);
+			path = Levels;
 			sourceTree = "<group>";
 		};
 		842C32141F86B2C0007BF8BB /* freetype */ = {
@@ -1551,6 +1598,7 @@
 		84A3EBF61F88283000EDCCB8 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8418F55A1F894BCA00DDA4B1 /* Engine */,
 				84A3EC021F882B6300EDCCB8 /* ResourcesManagement */,
 				84A3EBFB1F88298100EDCCB8 /* CoreGraphics */,
 				84A3EBF71F88283000EDCCB8 /* Game */,
@@ -1568,6 +1616,8 @@
 			children = (
 				84A3EBF81F88285200EDCCB8 /* game.h */,
 				84A3EBF91F88289E00EDCCB8 /* game.cpp */,
+				8418F55F1F894C5700DDA4B1 /* game-level.h */,
+				8418F55E1F894C5700DDA4B1 /* game-level.cpp */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -1729,9 +1779,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8418F55D1F894BDB00DDA4B1 /* game-object.cpp in Sources */,
 				84845B1C1F1D44DF0073978C /* image_helper.c in Sources */,
 				84A3EC011F882A9300EDCCB8 /* texture.cpp in Sources */,
 				84A3EC081F882E0500EDCCB8 /* texture-loader.cpp in Sources */,
+				8418F5601F894C5700DDA4B1 /* game-level.cpp in Sources */,
 				84A3EC191F89304200EDCCB8 /* sprite-renderer.cpp in Sources */,
 				84A3EBFE1F88299100EDCCB8 /* shader.cpp in Sources */,
 				84A3EC161F8830B600EDCCB8 /* main.cpp in Sources */,

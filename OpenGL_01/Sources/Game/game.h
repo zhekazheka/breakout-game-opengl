@@ -15,6 +15,12 @@
 #include "shader-loader.h"
 #include "texture-loader.h"
 #include "sprite-renderer.h"
+#include "game-level.h"
+
+// Initial size of the player paddle
+const glm::vec2 PLAYER_SIZE(100, 20);
+// Initial velocity of the player paddle
+const GLfloat PLAYER_VELOCITY(500.0f);
 
 // Represents the current state of the game
 enum GameState {
@@ -30,9 +36,9 @@ class Game
 {
 public:
     // Game state
-    GameState              State;
-    GLboolean              Keys[1024];
-    GLuint                 Width, Height;
+    GameState State;
+    GLboolean Keys[1024];
+    GLuint Width, Height;
     
     // Constructor/Destructor
     Game(GLuint width, GLuint height);
@@ -47,9 +53,14 @@ public:
     void Render();
     
 private:
+    std::vector<GameLevel> levels;
+    GLuint level;
+    
     ShaderLoader* shaderLoader;
     TextureLoader* textureLoader;
     SpriteRenderer* spriteRenderer;
+    
+    GameObject* player;
 };
 
 #endif /* Game_h */
