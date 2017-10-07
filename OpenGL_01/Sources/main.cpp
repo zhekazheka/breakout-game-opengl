@@ -71,7 +71,7 @@ int main(int argc, const char * argv[])
     TextureLoader textureLoader;
     
     // Initialize game
-    Breakout.Init();
+    Breakout.Init(&shaderLoader, &textureLoader);
     
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;

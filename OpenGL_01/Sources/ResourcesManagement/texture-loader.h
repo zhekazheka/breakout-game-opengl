@@ -25,10 +25,10 @@ public:
     std::map<std::string, Texture2D> Textures;
     
     // Loads (and generates) a texture from file
-    Texture2D LoadTexture(const GLchar *file, GLboolean alpha, std::string name);
+    Texture2D LoadTexture(const GLchar *file, GLboolean alpha, const std::string& name);
     
     // Retrieves a stored texture
-    Texture2D GetTexture(std::string name);
+    Texture2D GetTexture(const std::string& name);
     
     // Properly de-allocates all loaded resources
     void Clear();

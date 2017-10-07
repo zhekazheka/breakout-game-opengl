@@ -27,6 +27,7 @@
 		84A3EC051F882C7700EDCCB8 /* shader-loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC031F882C7700EDCCB8 /* shader-loader.cpp */; };
 		84A3EC081F882E0500EDCCB8 /* texture-loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC061F882E0500EDCCB8 /* texture-loader.cpp */; };
 		84A3EC161F8830B600EDCCB8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC151F8830B600EDCCB8 /* main.cpp */; };
+		84A3EC191F89304200EDCCB8 /* sprite-renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC171F89304200EDCCB8 /* sprite-renderer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -576,6 +577,11 @@
 		84A3EC121F8830B600EDCCB8 /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mesh.h; sourceTree = "<group>"; };
 		84A3EC131F8830B600EDCCB8 /* model.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = model.h; sourceTree = "<group>"; };
 		84A3EC151F8830B600EDCCB8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		84A3EC171F89304200EDCCB8 /* sprite-renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "sprite-renderer.cpp"; sourceTree = "<group>"; };
+		84A3EC181F89304200EDCCB8 /* sprite-renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "sprite-renderer.h"; sourceTree = "<group>"; };
+		84A3EC1A1F8930DF00EDCCB8 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
+		84A3EC1C1F8931BD00EDCCB8 /* sprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.frag; sourceTree = "<group>"; };
+		84A3EC1D1F8931BD00EDCCB8 /* sprite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.vert; sourceTree = "<group>"; };
 		84BB90791F6E977B00D0A447 /* back.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = back.tga; sourceTree = "<group>"; };
 		84BB907A1F6E977B00D0A447 /* bottom.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = bottom.tga; sourceTree = "<group>"; };
 		84BB907B1F6E977B00D0A447 /* front.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = front.tga; sourceTree = "<group>"; };
@@ -641,6 +647,7 @@
 		355DCF181EA6BC770029CD24 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				84A3EC1B1F89318C00EDCCB8 /* SpriteRendering */,
 				842C32781F86C218007BF8BB /* TextRendering */,
 				8402BC8F1F7C287000D97CB6 /* AdvanceLighting */,
 				84BB90861F6E994900D0A447 /* Cubemap.frag */,
@@ -1288,6 +1295,7 @@
 		35FDB0BB1EA929FC00A51757 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				84A3EC1A1F8930DF00EDCCB8 /* awesomeface.png */,
 				84BB90761F6E977B00D0A447 /* Cubemaps */,
 				84C70B711F606DBC006FF65D /* grass.png */,
 				35C436E11F39075100D9BE10 /* container2.png */,
@@ -1571,6 +1579,8 @@
 				84A3EBFD1F88299100EDCCB8 /* shader.h */,
 				84A3EBFF1F882A9300EDCCB8 /* texture.cpp */,
 				84A3EC001F882A9300EDCCB8 /* texture.h */,
+				84A3EC171F89304200EDCCB8 /* sprite-renderer.cpp */,
+				84A3EC181F89304200EDCCB8 /* sprite-renderer.h */,
 			);
 			path = CoreGraphics;
 			sourceTree = "<group>";
@@ -1584,6 +1594,16 @@
 				84A3EC071F882E0500EDCCB8 /* texture-loader.h */,
 			);
 			path = ResourcesManagement;
+			sourceTree = "<group>";
+		};
+		84A3EC1B1F89318C00EDCCB8 /* SpriteRendering */ = {
+			isa = PBXGroup;
+			children = (
+				84A3EC1C1F8931BD00EDCCB8 /* sprite.frag */,
+				84A3EC1D1F8931BD00EDCCB8 /* sprite.vert */,
+			);
+			name = SpriteRendering;
+			path = Shaders/SpriteRendering;
 			sourceTree = "<group>";
 		};
 		84BB90761F6E977B00D0A447 /* Cubemaps */ = {
@@ -1712,6 +1732,7 @@
 				84845B1C1F1D44DF0073978C /* image_helper.c in Sources */,
 				84A3EC011F882A9300EDCCB8 /* texture.cpp in Sources */,
 				84A3EC081F882E0500EDCCB8 /* texture-loader.cpp in Sources */,
+				84A3EC191F89304200EDCCB8 /* sprite-renderer.cpp in Sources */,
 				84A3EBFE1F88299100EDCCB8 /* shader.cpp in Sources */,
 				84A3EC161F8830B600EDCCB8 /* main.cpp in Sources */,
 				84845B1E1F1D44DF0073978C /* stb_image_aug.c in Sources */,

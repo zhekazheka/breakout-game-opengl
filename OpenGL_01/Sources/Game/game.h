@@ -12,6 +12,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
+#include "shader-loader.h"
+#include "texture-loader.h"
+#include "sprite-renderer.h"
+
 // Represents the current state of the game
 enum GameState {
     GAME_ACTIVE,
@@ -29,15 +33,23 @@ public:
     GameState              State;
     GLboolean              Keys[1024];
     GLuint                 Width, Height;
+    
     // Constructor/Destructor
     Game(GLuint width, GLuint height);
     ~Game();
+    
     // Initialize game state (load all shaders/textures/levels)
-    void Init();
+    void Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader);
+    
     // GameLoop
     void ProcessInput(GLfloat dt);
     void Update(GLfloat dt);
     void Render();
+    
+private:
+    ShaderLoader* shaderLoader;
+    TextureLoader* textureLoader;
+    SpriteRenderer* spriteRenderer;
 };
 
 #endif /* Game_h */
