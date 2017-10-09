@@ -17,6 +17,7 @@
 		35F58DA01F58B5D60094854C /* glm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 35F58CB51F58B5D60094854C /* glm.cpp */; };
 		8418F55D1F894BDB00DDA4B1 /* game-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8418F55B1F894BDB00DDA4B1 /* game-object.cpp */; };
 		8418F5601F894C5700DDA4B1 /* game-level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8418F55E1F894C5700DDA4B1 /* game-level.cpp */; };
+		8425D6531F8BF00B008B5B9D /* ball-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8425D6511F8BF00B008B5B9D /* ball-object.cpp */; };
 		842C32771F86BBE1007BF8BB /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 842C32761F86BBE1007BF8BB /* libfreetype.6.dylib */; };
 		84845B081F1D40260073978C /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84845AF01F1D40130073978C /* libSOIL.a */; };
 		84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B121F1D44DF0073978C /* image_DXT.c */; };
@@ -442,11 +443,14 @@
 		8418F5621F89527700DDA4B1 /* background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = background.jpg; sourceTree = "<group>"; };
 		8418F5631F89527700DDA4B1 /* block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = block.png; sourceTree = "<group>"; };
 		8418F5641F89527700DDA4B1 /* block_solid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = block_solid.png; sourceTree = "<group>"; };
-		8418F5661F89528000DDA4B1 /* four.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = four.lvl; sourceTree = "<group>"; };
-		8418F5671F89528000DDA4B1 /* one.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = one.lvl; sourceTree = "<group>"; };
-		8418F5681F89528000DDA4B1 /* three.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = three.lvl; sourceTree = "<group>"; };
-		8418F5691F89528000DDA4B1 /* two.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = two.lvl; sourceTree = "<group>"; };
+		8418F5661F89528000DDA4B1 /* 3.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 3.lvl; sourceTree = "<group>"; };
+		8418F5671F89528000DDA4B1 /* 0.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 0.lvl; sourceTree = "<group>"; };
+		8418F5681F89528000DDA4B1 /* 2.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 2.lvl; sourceTree = "<group>"; };
+		8418F5691F89528000DDA4B1 /* 1.lvl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 1.lvl; sourceTree = "<group>"; };
 		8418F56A1F89556A00DDA4B1 /* paddle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = paddle.png; sourceTree = "<group>"; };
+		8425D6511F8BF00B008B5B9D /* ball-object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "ball-object.cpp"; sourceTree = "<group>"; };
+		8425D6521F8BF00B008B5B9D /* ball-object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ball-object.h"; sourceTree = "<group>"; };
+		8425D6541F8BF9EA008B5B9D /* simple-collision-detector.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "simple-collision-detector.h"; sourceTree = "<group>"; };
 		842C32161F86B2C0007BF8BB /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		842C32171F86B2C0007BF8BB /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		842C32181F86B2C0007BF8BB /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -1358,6 +1362,7 @@
 			children = (
 				8418F55B1F894BDB00DDA4B1 /* game-object.cpp */,
 				8418F55C1F894BDB00DDA4B1 /* game-object.h */,
+				8425D6541F8BF9EA008B5B9D /* simple-collision-detector.h */,
 			);
 			path = Engine;
 			sourceTree = "<group>";
@@ -1376,10 +1381,10 @@
 		8418F5651F89528000DDA4B1 /* Levels */ = {
 			isa = PBXGroup;
 			children = (
-				8418F5661F89528000DDA4B1 /* four.lvl */,
-				8418F5671F89528000DDA4B1 /* one.lvl */,
-				8418F5681F89528000DDA4B1 /* three.lvl */,
-				8418F5691F89528000DDA4B1 /* two.lvl */,
+				8418F5671F89528000DDA4B1 /* 0.lvl */,
+				8418F5691F89528000DDA4B1 /* 1.lvl */,
+				8418F5681F89528000DDA4B1 /* 2.lvl */,
+				8418F5661F89528000DDA4B1 /* 3.lvl */,
 			);
 			path = Levels;
 			sourceTree = "<group>";
@@ -1618,6 +1623,8 @@
 				84A3EBF91F88289E00EDCCB8 /* game.cpp */,
 				8418F55F1F894C5700DDA4B1 /* game-level.h */,
 				8418F55E1F894C5700DDA4B1 /* game-level.cpp */,
+				8425D6511F8BF00B008B5B9D /* ball-object.cpp */,
+				8425D6521F8BF00B008B5B9D /* ball-object.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -1789,6 +1796,7 @@
 				84A3EC161F8830B600EDCCB8 /* main.cpp in Sources */,
 				84845B1E1F1D44DF0073978C /* stb_image_aug.c in Sources */,
 				84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */,
+				8425D6531F8BF00B008B5B9D /* ball-object.cpp in Sources */,
 				84A3EBFA1F88289E00EDCCB8 /* game.cpp in Sources */,
 				35F58DA01F58B5D60094854C /* glm.cpp in Sources */,
 				84845B1D1F1D44DF0073978C /* SOIL.c in Sources */,

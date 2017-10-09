@@ -16,11 +16,17 @@
 #include "texture-loader.h"
 #include "sprite-renderer.h"
 #include "game-level.h"
+#include "ball-object.h"
 
 // Initial size of the player paddle
 const glm::vec2 PLAYER_SIZE(100, 20);
 // Initial velocity of the player paddle
 const GLfloat PLAYER_VELOCITY(500.0f);
+
+// Initial velocity of the Ball
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
+// Radius of the ball object
+const GLfloat BALL_RADIUS = 12.5f;
 
 // Represents the current state of the game
 enum GameState {
@@ -61,6 +67,11 @@ private:
     SpriteRenderer* spriteRenderer;
     
     GameObject* player;
+    BallObject* ball;
+    
+    void DoCollisions();
+    void ResetLevel();
+    void ResetPlayer();
 };
 
 #endif /* Game_h */
