@@ -19,6 +19,7 @@
 		8418F5601F894C5700DDA4B1 /* game-level.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8418F55E1F894C5700DDA4B1 /* game-level.cpp */; };
 		8425D6531F8BF00B008B5B9D /* ball-object.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8425D6511F8BF00B008B5B9D /* ball-object.cpp */; };
 		8425D65A1F8D51B5008B5B9D /* particle-generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8425D6581F8D51B5008B5B9D /* particle-generator.cpp */; };
+		8425D6611F93AC67008B5B9D /* post-processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8425D65F1F93AC67008B5B9D /* post-processor.cpp */; };
 		842C32771F86BBE1007BF8BB /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 842C32761F86BBE1007BF8BB /* libfreetype.6.dylib */; };
 		84845B081F1D40260073978C /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84845AF01F1D40130073978C /* libSOIL.a */; };
 		84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B121F1D44DF0073978C /* image_DXT.c */; };
@@ -457,6 +458,10 @@
 		8425D6581F8D51B5008B5B9D /* particle-generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "particle-generator.cpp"; sourceTree = "<group>"; };
 		8425D6591F8D51B5008B5B9D /* particle-generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "particle-generator.h"; sourceTree = "<group>"; };
 		8425D65B1F8D54D0008B5B9D /* particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle.png; sourceTree = "<group>"; };
+		8425D65D1F93A9B2008B5B9D /* basicPostEffects.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicPostEffects.frag; sourceTree = "<group>"; };
+		8425D65E1F93A9B2008B5B9D /* basicPostEffects.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicPostEffects.vert; sourceTree = "<group>"; };
+		8425D65F1F93AC67008B5B9D /* post-processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "post-processor.cpp"; sourceTree = "<group>"; };
+		8425D6601F93AC67008B5B9D /* post-processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "post-processor.h"; sourceTree = "<group>"; };
 		842C32161F86B2C0007BF8BB /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		842C32171F86B2C0007BF8BB /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		842C32181F86B2C0007BF8BB /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -671,6 +676,7 @@
 		355DCF181EA6BC770029CD24 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				8425D65C1F93A982008B5B9D /* PostprocessEffects */,
 				8425D6551F8D4FC7008B5B9D /* Particles */,
 				84A3EC1B1F89318C00EDCCB8 /* SpriteRendering */,
 				842C32781F86C218007BF8BB /* TextRendering */,
@@ -1409,6 +1415,16 @@
 			path = Shaders/Particles;
 			sourceTree = "<group>";
 		};
+		8425D65C1F93A982008B5B9D /* PostprocessEffects */ = {
+			isa = PBXGroup;
+			children = (
+				8425D65D1F93A9B2008B5B9D /* basicPostEffects.frag */,
+				8425D65E1F93A9B2008B5B9D /* basicPostEffects.vert */,
+			);
+			name = PostprocessEffects;
+			path = Shaders/PostprocessEffects;
+			sourceTree = "<group>";
+		};
 		842C32141F86B2C0007BF8BB /* freetype */ = {
 			isa = PBXGroup;
 			children = (
@@ -1658,6 +1674,8 @@
 				84A3EC001F882A9300EDCCB8 /* texture.h */,
 				84A3EC171F89304200EDCCB8 /* sprite-renderer.cpp */,
 				84A3EC181F89304200EDCCB8 /* sprite-renderer.h */,
+				8425D65F1F93AC67008B5B9D /* post-processor.cpp */,
+				8425D6601F93AC67008B5B9D /* post-processor.h */,
 			);
 			path = CoreGraphics;
 			sourceTree = "<group>";
@@ -1817,6 +1835,7 @@
 				84845B1E1F1D44DF0073978C /* stb_image_aug.c in Sources */,
 				84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */,
 				8425D6531F8BF00B008B5B9D /* ball-object.cpp in Sources */,
+				8425D6611F93AC67008B5B9D /* post-processor.cpp in Sources */,
 				84A3EBFA1F88289E00EDCCB8 /* game.cpp in Sources */,
 				35F58DA01F58B5D60094854C /* glm.cpp in Sources */,
 				84845B1D1F1D44DF0073978C /* SOIL.c in Sources */,

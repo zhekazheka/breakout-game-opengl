@@ -26,6 +26,7 @@ Game::~Game()
     delete player;
     delete ball;
     delete particleGenerator;
+    delete postProcessor;
 }
 
 void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
@@ -38,6 +39,9 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     
     Shader particleShader = shaderLoader->LoadShader("OpenGL_01/Shaders/Particles/simpleParticle.vert",
                                                      "OpenGL_01/Shaders/Particles/simpleParticle.frag", nullptr, "particles");
+    
+    Shader postProcessorShader = shaderLoader->LoadShader("OpenGL_01/Shaders/PostprocessEffects/basicPostEffects.vert",
+                                                    "OpenGL_01/Shaders/PostprocessEffects/basicPostEffects.frag", nullptr, "post-process");
     
     // Configure shaders
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width), static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
@@ -84,6 +88,8 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
     
     particleGenerator = new ParticleGenerator(particleShader, particleTexture, 500);
+    
+    postProcessor = new PostProcessor(postProcessorShader, this->Width, this->Height);
 }
 
 void Game::Update(GLfloat dt)
@@ -99,6 +105,8 @@ void Game::Update(GLfloat dt)
         this->ResetLevel();
         this->ResetPlayer();
     }
+    
+    postProcessor->Update(dt);
 }
 
 
@@ -141,6 +149,8 @@ void Game::Render()
 {
     if(this->State == GAME_ACTIVE)
     {
+        postProcessor->BeginRender();
+        
         // Draw background
         Texture2D backgroundTexture = textureLoader->GetTexture("background");
         spriteRenderer->DrawSprite(backgroundTexture,
@@ -157,6 +167,10 @@ void Game::Render()
         
         // Draw ball
         ball->Draw(*spriteRenderer);
+        
+        postProcessor->EndRender();
+        
+        postProcessor->Render(glfwGetTime());
     }
 }
 
@@ -177,6 +191,11 @@ void Game::DoCollisions()
         
         // Destroy block if not solid
         box.Destroyed = !box.IsSolid;
+        
+        if(box.Destroyed)
+        {
+            postProcessor->SetShakeTime(0.05f);
+        }
         
         // Collision resolution
         Direction dir = std::get<1>(collision);
