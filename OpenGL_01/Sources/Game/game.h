@@ -9,6 +9,8 @@
 #ifndef Game_h
 #define Game_h
 
+#include <vector>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
@@ -19,6 +21,7 @@
 #include "ball-object.h"
 #include "particle-generator.h"
 #include "post-processor.h"
+#include "power-up.h"
 
 // Initial size of the player paddle
 const glm::vec2 PLAYER_SIZE(100, 20);
@@ -48,6 +51,8 @@ public:
     GLboolean Keys[1024];
     GLuint Width, Height;
     
+    std::vector<PowerUp> PowerUps;
+    
     // Constructor/Destructor
     Game(GLuint width, GLuint height);
     ~Game();
@@ -59,6 +64,13 @@ public:
     void ProcessInput(GLfloat dt);
     void Update(GLfloat dt);
     void Render();
+    
+    // [zheka] TODO move it to factory
+    void SpawnPowerUps(GameObject& block);
+    
+    // [zheka] TODO maybe move it to some sort of PowerUpController
+    void UpdatePowerUps(GLfloat dt);
+    void ActivatePowerUp(PowerUp &powerUp);
     
 private:
     std::vector<GameLevel> levels;

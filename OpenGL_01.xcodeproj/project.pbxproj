@@ -462,6 +462,13 @@
 		8425D65E1F93A9B2008B5B9D /* basicPostEffects.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicPostEffects.vert; sourceTree = "<group>"; };
 		8425D65F1F93AC67008B5B9D /* post-processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "post-processor.cpp"; sourceTree = "<group>"; };
 		8425D6601F93AC67008B5B9D /* post-processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "post-processor.h"; sourceTree = "<group>"; };
+		8425D6631F93BA22008B5B9D /* power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-up.h"; sourceTree = "<group>"; };
+		8425D6661F93BE19008B5B9D /* powerup_chaos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_chaos.png; sourceTree = "<group>"; };
+		8425D6671F93BE19008B5B9D /* powerup_confuse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_confuse.png; sourceTree = "<group>"; };
+		8425D6681F93BE19008B5B9D /* powerup_increase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_increase.png; sourceTree = "<group>"; };
+		8425D6691F93BE19008B5B9D /* powerup_passthrough.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_passthrough.png; sourceTree = "<group>"; };
+		8425D66A1F93BE19008B5B9D /* powerup_speed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_speed.png; sourceTree = "<group>"; };
+		8425D66B1F93BE19008B5B9D /* powerup_sticky.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_sticky.png; sourceTree = "<group>"; };
 		842C32161F86B2C0007BF8BB /* ftconfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftconfig.h; sourceTree = "<group>"; };
 		842C32171F86B2C0007BF8BB /* ftheader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftheader.h; sourceTree = "<group>"; };
 		842C32181F86B2C0007BF8BB /* ftmodule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ftmodule.h; sourceTree = "<group>"; };
@@ -1327,6 +1334,7 @@
 		35FDB0BB1EA929FC00A51757 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				8425D6651F93BE19008B5B9D /* PowerUps */,
 				8425D65B1F8D54D0008B5B9D /* particle.png */,
 				8418F5611F89527700DDA4B1 /* LevelAssets */,
 				84A3EC1A1F8930DF00EDCCB8 /* awesomeface.png */,
@@ -1423,6 +1431,19 @@
 			);
 			name = PostprocessEffects;
 			path = Shaders/PostprocessEffects;
+			sourceTree = "<group>";
+		};
+		8425D6651F93BE19008B5B9D /* PowerUps */ = {
+			isa = PBXGroup;
+			children = (
+				8425D6661F93BE19008B5B9D /* powerup_chaos.png */,
+				8425D6671F93BE19008B5B9D /* powerup_confuse.png */,
+				8425D6681F93BE19008B5B9D /* powerup_increase.png */,
+				8425D6691F93BE19008B5B9D /* powerup_passthrough.png */,
+				8425D66A1F93BE19008B5B9D /* powerup_speed.png */,
+				8425D66B1F93BE19008B5B9D /* powerup_sticky.png */,
+			);
+			path = PowerUps;
 			sourceTree = "<group>";
 		};
 		842C32141F86B2C0007BF8BB /* freetype */ = {
@@ -1661,6 +1682,7 @@
 				8418F55E1F894C5700DDA4B1 /* game-level.cpp */,
 				8425D6511F8BF00B008B5B9D /* ball-object.cpp */,
 				8425D6521F8BF00B008B5B9D /* ball-object.h */,
+				8425D6631F93BA22008B5B9D /* power-up.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
