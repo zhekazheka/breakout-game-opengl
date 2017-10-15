@@ -17,6 +17,7 @@
 #include "sprite-renderer.h"
 #include "game-level.h"
 #include "ball-object.h"
+#include "particle-generator.h"
 
 // Initial size of the player paddle
 const glm::vec2 PLAYER_SIZE(100, 20);
@@ -68,6 +69,7 @@ private:
     
     GameObject* player;
     BallObject* ball;
+    ParticleGenerator* particleGenerator;
     
     void DoCollisions();
     void ResetLevel();

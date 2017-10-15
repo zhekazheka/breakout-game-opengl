@@ -23,6 +23,9 @@ Game::Game(GLuint width, GLuint height)
 Game::~Game()
 {
     delete spriteRenderer;
+    delete player;
+    delete ball;
+    delete particleGenerator;
 }
 
 void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
@@ -30,7 +33,11 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     this->shaderLoader = shaderLoader;
     this->textureLoader = textureLoader;
     
-    Shader spriteShader = shaderLoader->LoadShader("OpenGL_01/Shaders/SpriteRendering/sprite.vert", "OpenGL_01/Shaders/SpriteRendering/sprite.frag", nullptr, "sprite");
+    Shader spriteShader = shaderLoader->LoadShader("OpenGL_01/Shaders/SpriteRendering/sprite.vert",
+                                                   "OpenGL_01/Shaders/SpriteRendering/sprite.frag", nullptr, "sprite");
+    
+    Shader particleShader = shaderLoader->LoadShader("OpenGL_01/Shaders/Particles/simpleParticle.vert",
+                                                     "OpenGL_01/Shaders/Particles/simpleParticle.frag", nullptr, "particles");
     
     // Configure shaders
     glm::mat4 projection = glm::ortho(0.0f, static_cast<GLfloat>(this->Width), static_cast<GLfloat>(this->Height), 0.0f, -1.0f, 1.0f);
@@ -38,8 +45,8 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     spriteShader.SetInteger("image", 0);
     spriteShader.SetMatrix4("projection", projection);
     
-    // Load textures
-    textureLoader->LoadTexture("OpenGL_01/Resources/Textures/awesomeface.png", GL_TRUE, "face");
+    particleShader.Use().SetInteger("sprite", 0);
+    particleShader.SetMatrix4("projection", projection);
     
     // Set render-specific controls
     spriteRenderer = new SpriteRenderer(spriteShader);
@@ -50,6 +57,7 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/LevelAssets/block.png", GL_FALSE, "block");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/LevelAssets/block_solid.png", GL_FALSE, "block_solid");
     Texture2D paddleTexture = textureLoader->LoadTexture("OpenGL_01/Resources/Textures/LevelAssets/paddle.png", true, "paddle");
+    Texture2D particleTexture = textureLoader->LoadTexture("OpenGL_01/Resources/Textures/particle.png", GL_TRUE, "particle");
     
     // Load levels
     for(int i = 0; i < 4; ++i)
@@ -74,6 +82,8 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     
     glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
     ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
+    
+    particleGenerator = new ParticleGenerator(particleShader, particleTexture, 500);
 }
 
 void Game::Update(GLfloat dt)
@@ -81,6 +91,8 @@ void Game::Update(GLfloat dt)
     ball->Move(dt, this->Width);
     
     DoCollisions();
+    
+    particleGenerator->Update(dt, *ball, 2, glm::vec2(ball->Radius / 2));
     
     if (ball->Position.y >= this->Height) // Did ball reach bottom edge?
     {
@@ -140,6 +152,10 @@ void Game::Render()
         //Draw player
         this->player->Draw(*spriteRenderer);
         
+        // Draw particles
+        particleGenerator->Draw();
+        
+        // Draw ball
         ball->Draw(*spriteRenderer);
     }
 }
