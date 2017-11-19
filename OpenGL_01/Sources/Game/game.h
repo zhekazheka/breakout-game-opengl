@@ -22,6 +22,7 @@
 #include "particle-generator.h"
 #include "post-processor.h"
 #include "power-up.h"
+#include "text-renderer.h"
 
 // Initial size of the player paddle
 const glm::vec2 PLAYER_SIZE(100, 20);
@@ -49,6 +50,7 @@ public:
     // Game state
     GameState State;
     GLboolean Keys[1024];
+    GLboolean KeysProcessed[1024];
     GLuint Width, Height;
     
     std::vector<PowerUp> PowerUps;
@@ -79,11 +81,14 @@ private:
     ShaderLoader* shaderLoader;
     TextureLoader* textureLoader;
     SpriteRenderer* spriteRenderer;
+    TextRenderer* textRenderer;
     
     GameObject* player;
     BallObject* ball;
     ParticleGenerator* particleGenerator;
     PostProcessor* postProcessor;
+    
+    int lives;
     
     void DoCollisions();
     void ResetLevel();

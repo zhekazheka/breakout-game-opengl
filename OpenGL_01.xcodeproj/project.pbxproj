@@ -33,6 +33,7 @@
 		84A3EC081F882E0500EDCCB8 /* texture-loader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC061F882E0500EDCCB8 /* texture-loader.cpp */; };
 		84A3EC161F8830B600EDCCB8 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC151F8830B600EDCCB8 /* main.cpp */; };
 		84A3EC191F89304200EDCCB8 /* sprite-renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84A3EC171F89304200EDCCB8 /* sprite-renderer.cpp */; };
+		84D498401FC0DE4D00CBEBBB /* text-renderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 84D4983E1FC0DE4D00CBEBBB /* text-renderer.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -561,8 +562,8 @@
 		842C32711F86B2C0007BF8BB /* ttunpat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ttunpat.h; sourceTree = "<group>"; };
 		842C32721F86B2C0007BF8BB /* ft2build.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ft2build.h; sourceTree = "<group>"; };
 		842C32761F86BBE1007BF8BB /* libfreetype.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; path = libfreetype.6.dylib; sourceTree = "<group>"; };
-		842C32791F86C218007BF8BB /* Text.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Text.frag; sourceTree = "<group>"; };
-		842C327A1F86C218007BF8BB /* Text.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Text.vert; sourceTree = "<group>"; };
+		842C32791F86C218007BF8BB /* text.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = text.frag; sourceTree = "<group>"; };
+		842C327A1F86C218007BF8BB /* text.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = text.vert; sourceTree = "<group>"; };
 		842C327C1F86C2BE007BF8BB /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
 		84845AF01F1D40130073978C /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSOIL.a; sourceTree = "<group>"; };
 		84845AFA1F1D40130073978C /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
@@ -658,6 +659,8 @@
 		84C70B721F607550006FF65D /* blending_transparent_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blending_transparent_window.png; sourceTree = "<group>"; };
 		84C70B751F608F8E006FF65D /* ScreenSimple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = ScreenSimple.frag; path = Shaders/ScreenSimple.frag; sourceTree = "<group>"; };
 		84C70B761F608F8E006FF65D /* ScreenSimple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = ScreenSimple.vert; path = Shaders/ScreenSimple.vert; sourceTree = "<group>"; };
+		84D4983E1FC0DE4D00CBEBBB /* text-renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "text-renderer.cpp"; sourceTree = "<group>"; };
+		84D4983F1FC0DE4D00CBEBBB /* text-renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "text-renderer.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1578,8 +1581,8 @@
 		842C32781F86C218007BF8BB /* TextRendering */ = {
 			isa = PBXGroup;
 			children = (
-				842C32791F86C218007BF8BB /* Text.frag */,
-				842C327A1F86C218007BF8BB /* Text.vert */,
+				842C32791F86C218007BF8BB /* text.frag */,
+				842C327A1F86C218007BF8BB /* text.vert */,
 			);
 			name = TextRendering;
 			path = Shaders/TextRendering;
@@ -1698,6 +1701,8 @@
 				84A3EC181F89304200EDCCB8 /* sprite-renderer.h */,
 				8425D65F1F93AC67008B5B9D /* post-processor.cpp */,
 				8425D6601F93AC67008B5B9D /* post-processor.h */,
+				84D4983E1FC0DE4D00CBEBBB /* text-renderer.cpp */,
+				84D4983F1FC0DE4D00CBEBBB /* text-renderer.h */,
 			);
 			path = CoreGraphics;
 			sourceTree = "<group>";
@@ -1847,6 +1852,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8418F55D1F894BDB00DDA4B1 /* game-object.cpp in Sources */,
+				84D498401FC0DE4D00CBEBBB /* text-renderer.cpp in Sources */,
 				84845B1C1F1D44DF0073978C /* image_helper.c in Sources */,
 				84A3EC011F882A9300EDCCB8 /* texture.cpp in Sources */,
 				84A3EC081F882E0500EDCCB8 /* texture-loader.cpp in Sources */,
@@ -1979,6 +1985,7 @@
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/SOIL/lib",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/freetype",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -2004,6 +2011,7 @@
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/SOIL/lib",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/freetype",
 				);
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;

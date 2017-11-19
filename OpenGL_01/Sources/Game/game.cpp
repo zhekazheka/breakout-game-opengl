@@ -15,7 +15,7 @@
 #include "simple-collision-detector.h"
 
 Game::Game(GLuint width, GLuint height)
-: State(GAME_ACTIVE), Keys(), Width(width), Height(height)
+: State(GAME_MENU), Keys(), Width(width), Height(height)
 {
     
 }
@@ -27,6 +27,7 @@ Game::~Game()
     delete ball;
     delete particleGenerator;
     delete postProcessor;
+    delete textRenderer;
 }
 
 void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
@@ -98,6 +99,11 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     particleGenerator = new ParticleGenerator(particleShader, particleTexture, 500);
     
     postProcessor = new PostProcessor(postProcessorShader, this->Width, this->Height);
+    
+    textRenderer = new TextRenderer(this->Width, this->Height, shaderLoader);
+    textRenderer->Load("OpenGL_01/Resources/Fonts/arial.ttf", 24);
+    
+    lives = 3;
 }
 
 void Game::Update(GLfloat dt)
@@ -110,18 +116,50 @@ void Game::Update(GLfloat dt)
     
     if (ball->Position.y >= this->Height) // Did ball reach bottom edge?
     {
-        this->ResetLevel();
+        --lives;
+        if(lives == 0)
+        {
+            this->ResetLevel();
+            this->State = GAME_MENU;
+        }
         this->ResetPlayer();
     }
     
     UpdatePowerUps(dt);
     
     postProcessor->Update(dt);
+    
+    if (this->State == GAME_ACTIVE && this->levels[this->level].IsCompleted())
+    {
+        this->ResetLevel();
+        this->ResetPlayer();
+        postProcessor->Chaos = GL_TRUE;
+        this->State = GAME_WIN;
+    }
 }
 
 
 void Game::ProcessInput(GLfloat dt)
 {
+    if (this->State == GAME_MENU)
+    {
+        if (this->Keys[GLFW_KEY_ENTER] && !this->KeysProcessed[GLFW_KEY_ENTER])
+        {
+            this->State = GAME_ACTIVE;
+            this->KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+        }
+        if (this->Keys[GLFW_KEY_W] && !this->KeysProcessed[GLFW_KEY_W])
+        {
+            this->level = (this->level + 1) % 4;
+            this->KeysProcessed[GLFW_KEY_W] = GL_TRUE;
+        }
+        if (this->Keys[GLFW_KEY_S] && !this->KeysProcessed[GLFW_KEY_S])
+        {
+            this->level = level > 0 ? --level : 3;
+            this->KeysProcessed[GLFW_KEY_S] = GL_TRUE;
+        }
+    }
+    
     if (this->State == GAME_ACTIVE)
     {
         GLfloat velocity = PLAYER_VELOCITY * dt;
@@ -153,11 +191,21 @@ void Game::ProcessInput(GLfloat dt)
             ball->Stuck = false;
         }
     }
+    
+    if (this->State == GAME_WIN)
+    {
+        if (this->Keys[GLFW_KEY_ENTER])
+        {
+            this->KeysProcessed[GLFW_KEY_ENTER] = GL_TRUE;
+            postProcessor->Chaos = GL_FALSE;
+            this->State = GAME_MENU;
+        }
+    }
 }
 
 void Game::Render()
 {
-    if(this->State == GAME_ACTIVE)
+    if(this->State == GAME_ACTIVE || this->State == GAME_MENU || this->State == GAME_WIN)
     {
         postProcessor->BeginRender();
         
@@ -189,6 +237,26 @@ void Game::Render()
         postProcessor->EndRender();
         
         postProcessor->Render(glfwGetTime());
+        
+        std::stringstream ss;
+        ss << lives;
+        textRenderer->RenderText("Lives: " + ss.str(), 5.0f, 5.0f, 1.0f);
+    }
+    
+    if (this->State == GAME_MENU)
+    {
+        textRenderer->RenderText("Press ENTER to start", 250.0f, this->Height / 2, 1.0f);
+        textRenderer->RenderText("Press W or S to select level", 245.0f, this->Height / 2 + 20.0f, 0.75f);
+    }
+    
+    if (this->State == GAME_WIN)
+    {
+        textRenderer->RenderText(
+                         "You WON!!!", 320.0, Height / 2 - 20.0, 1.0, glm::vec3(0.0, 1.0, 0.0)
+                         );
+        textRenderer->RenderText(
+                         "Press ENTER to retry or ESC to quit", 130.0, Height / 2, 1.0, glm::vec3(1.0, 1.0, 0.0)
+                         );
     }
 }
 
@@ -282,6 +350,7 @@ void Game::ResetLevel()
     const std::string& tmp = ss.str();
     const char* filePath = tmp.c_str();
     this->levels[this->level].Load(filePath, this->Width, this->Height * 0.5f);
+    lives = 3;
 }
 
 void Game::ResetPlayer()
