@@ -21,6 +21,16 @@
 		8425D65A1F8D51B5008B5B9D /* particle-generator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8425D6581F8D51B5008B5B9D /* particle-generator.cpp */; };
 		8425D6611F93AC67008B5B9D /* post-processor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8425D65F1F93AC67008B5B9D /* post-processor.cpp */; };
 		842C32771F86BBE1007BF8BB /* libfreetype.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 842C32761F86BBE1007BF8BB /* libfreetype.6.dylib */; };
+		8468BFA71FC202D900F21A3A /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFA51FC202D900F21A3A /* player.cpp */; };
+		8468BFAE1FC2032E00F21A3A /* live-component.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFAC1FC2032E00F21A3A /* live-component.cpp */; };
+		8468BFB31FC20B9400F21A3A /* power-ups-factory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFB11FC20B9400F21A3A /* power-ups-factory.cpp */; };
+		8468BFB61FC20E2800F21A3A /* power-ups-controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFB41FC20E2800F21A3A /* power-ups-controller.cpp */; };
+		8468BFCA1FC4BC1000F21A3A /* change-speed-power-up.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFC41FC4BC1000F21A3A /* change-speed-power-up.cpp */; };
+		8468BFCB1FC4BC1000F21A3A /* pass-through-power-up.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFC61FC4BC1000F21A3A /* pass-through-power-up.cpp */; };
+		8468BFCC1FC4BC1000F21A3A /* sticky-power-up.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFC81FC4BC1000F21A3A /* sticky-power-up.cpp */; };
+		8468BFCF1FC4BC2600F21A3A /* pad-size-increase-power-up.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFCD1FC4BC2600F21A3A /* pad-size-increase-power-up.cpp */; };
+		8468BFD21FC4BD9B00F21A3A /* confuse-power-up.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8468BFD01FC4BD9B00F21A3A /* confuse-power-up.cpp */; };
+		8482EB3F1FC4C202002310C7 /* chaos-power-up.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8482EB3D1FC4C202002310C7 /* chaos-power-up.cpp */; };
 		84845B081F1D40260073978C /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84845AF01F1D40130073978C /* libSOIL.a */; };
 		84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B121F1D44DF0073978C /* image_DXT.c */; };
 		84845B1C1F1D44DF0073978C /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B141F1D44DF0073978C /* image_helper.c */; };
@@ -463,7 +473,6 @@
 		8425D65E1F93A9B2008B5B9D /* basicPostEffects.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicPostEffects.vert; sourceTree = "<group>"; };
 		8425D65F1F93AC67008B5B9D /* post-processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "post-processor.cpp"; sourceTree = "<group>"; };
 		8425D6601F93AC67008B5B9D /* post-processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "post-processor.h"; sourceTree = "<group>"; };
-		8425D6631F93BA22008B5B9D /* power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-up.h"; sourceTree = "<group>"; };
 		8425D6661F93BE19008B5B9D /* powerup_chaos.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_chaos.png; sourceTree = "<group>"; };
 		8425D6671F93BE19008B5B9D /* powerup_confuse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_confuse.png; sourceTree = "<group>"; };
 		8425D6681F93BE19008B5B9D /* powerup_increase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powerup_increase.png; sourceTree = "<group>"; };
@@ -565,6 +574,27 @@
 		842C32791F86C218007BF8BB /* text.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = text.frag; sourceTree = "<group>"; };
 		842C327A1F86C218007BF8BB /* text.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = text.vert; sourceTree = "<group>"; };
 		842C327C1F86C2BE007BF8BB /* arial.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = arial.ttf; sourceTree = "<group>"; };
+		8468BFA51FC202D900F21A3A /* player.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = player.cpp; sourceTree = "<group>"; };
+		8468BFA61FC202D900F21A3A /* player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = player.h; sourceTree = "<group>"; };
+		8468BFAC1FC2032E00F21A3A /* live-component.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "live-component.cpp"; sourceTree = "<group>"; };
+		8468BFAD1FC2032E00F21A3A /* live-component.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "live-component.h"; sourceTree = "<group>"; };
+		8468BFB01FC20B7500F21A3A /* power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-up.h"; sourceTree = "<group>"; };
+		8468BFB11FC20B9400F21A3A /* power-ups-factory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "power-ups-factory.cpp"; sourceTree = "<group>"; };
+		8468BFB21FC20B9400F21A3A /* power-ups-factory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-ups-factory.h"; sourceTree = "<group>"; };
+		8468BFB41FC20E2800F21A3A /* power-ups-controller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "power-ups-controller.cpp"; sourceTree = "<group>"; };
+		8468BFB51FC20E2800F21A3A /* power-ups-controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "power-ups-controller.h"; sourceTree = "<group>"; };
+		8468BFC41FC4BC1000F21A3A /* change-speed-power-up.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "change-speed-power-up.cpp"; sourceTree = "<group>"; };
+		8468BFC51FC4BC1000F21A3A /* change-speed-power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "change-speed-power-up.h"; sourceTree = "<group>"; };
+		8468BFC61FC4BC1000F21A3A /* pass-through-power-up.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "pass-through-power-up.cpp"; sourceTree = "<group>"; };
+		8468BFC71FC4BC1000F21A3A /* pass-through-power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "pass-through-power-up.h"; sourceTree = "<group>"; };
+		8468BFC81FC4BC1000F21A3A /* sticky-power-up.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "sticky-power-up.cpp"; sourceTree = "<group>"; };
+		8468BFC91FC4BC1000F21A3A /* sticky-power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "sticky-power-up.h"; sourceTree = "<group>"; };
+		8468BFCD1FC4BC2600F21A3A /* pad-size-increase-power-up.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "pad-size-increase-power-up.cpp"; sourceTree = "<group>"; };
+		8468BFCE1FC4BC2600F21A3A /* pad-size-increase-power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "pad-size-increase-power-up.h"; sourceTree = "<group>"; };
+		8468BFD01FC4BD9B00F21A3A /* confuse-power-up.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "confuse-power-up.cpp"; sourceTree = "<group>"; };
+		8468BFD11FC4BD9B00F21A3A /* confuse-power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "confuse-power-up.h"; sourceTree = "<group>"; };
+		8482EB3D1FC4C202002310C7 /* chaos-power-up.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "chaos-power-up.cpp"; sourceTree = "<group>"; };
+		8482EB3E1FC4C202002310C7 /* chaos-power-up.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "chaos-power-up.h"; sourceTree = "<group>"; };
 		84845AF01F1D40130073978C /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSOIL.a; sourceTree = "<group>"; };
 		84845AFA1F1D40130073978C /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
 		84845B121F1D44DF0073978C /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
@@ -1596,6 +1626,56 @@
 			path = Fonts;
 			sourceTree = "<group>";
 		};
+		8468BFA41FC202B300F21A3A /* player */ = {
+			isa = PBXGroup;
+			children = (
+				8468BFA51FC202D900F21A3A /* player.cpp */,
+				8468BFA61FC202D900F21A3A /* player.h */,
+			);
+			path = player;
+			sourceTree = "<group>";
+		};
+		8468BFAB1FC2032E00F21A3A /* components */ = {
+			isa = PBXGroup;
+			children = (
+				8468BFAC1FC2032E00F21A3A /* live-component.cpp */,
+				8468BFAD1FC2032E00F21A3A /* live-component.h */,
+			);
+			path = components;
+			sourceTree = "<group>";
+		};
+		8468BFAF1FC20B2F00F21A3A /* power-ups */ = {
+			isa = PBXGroup;
+			children = (
+				8468BFC31FC4BC1000F21A3A /* modifiers */,
+				8468BFB01FC20B7500F21A3A /* power-up.h */,
+				8468BFB11FC20B9400F21A3A /* power-ups-factory.cpp */,
+				8468BFB21FC20B9400F21A3A /* power-ups-factory.h */,
+				8468BFB41FC20E2800F21A3A /* power-ups-controller.cpp */,
+				8468BFB51FC20E2800F21A3A /* power-ups-controller.h */,
+			);
+			path = "power-ups";
+			sourceTree = "<group>";
+		};
+		8468BFC31FC4BC1000F21A3A /* modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				8468BFC41FC4BC1000F21A3A /* change-speed-power-up.cpp */,
+				8468BFC51FC4BC1000F21A3A /* change-speed-power-up.h */,
+				8468BFC61FC4BC1000F21A3A /* pass-through-power-up.cpp */,
+				8468BFC71FC4BC1000F21A3A /* pass-through-power-up.h */,
+				8468BFC81FC4BC1000F21A3A /* sticky-power-up.cpp */,
+				8468BFC91FC4BC1000F21A3A /* sticky-power-up.h */,
+				8468BFCD1FC4BC2600F21A3A /* pad-size-increase-power-up.cpp */,
+				8468BFCE1FC4BC2600F21A3A /* pad-size-increase-power-up.h */,
+				8468BFD01FC4BD9B00F21A3A /* confuse-power-up.cpp */,
+				8468BFD11FC4BD9B00F21A3A /* confuse-power-up.h */,
+				8482EB3D1FC4C202002310C7 /* chaos-power-up.cpp */,
+				8482EB3E1FC4C202002310C7 /* chaos-power-up.h */,
+			);
+			path = modifiers;
+			sourceTree = "<group>";
+		};
 		84845AED1F1D40130073978C /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -1679,13 +1759,15 @@
 		84A3EBF71F88283000EDCCB8 /* Game */ = {
 			isa = PBXGroup;
 			children = (
+				8468BFAF1FC20B2F00F21A3A /* power-ups */,
+				8468BFAB1FC2032E00F21A3A /* components */,
+				8468BFA41FC202B300F21A3A /* player */,
 				84A3EBF81F88285200EDCCB8 /* game.h */,
 				84A3EBF91F88289E00EDCCB8 /* game.cpp */,
 				8418F55F1F894C5700DDA4B1 /* game-level.h */,
 				8418F55E1F894C5700DDA4B1 /* game-level.cpp */,
 				8425D6511F8BF00B008B5B9D /* ball-object.cpp */,
 				8425D6521F8BF00B008B5B9D /* ball-object.h */,
-				8425D6631F93BA22008B5B9D /* power-up.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -1854,20 +1936,30 @@
 				8418F55D1F894BDB00DDA4B1 /* game-object.cpp in Sources */,
 				84D498401FC0DE4D00CBEBBB /* text-renderer.cpp in Sources */,
 				84845B1C1F1D44DF0073978C /* image_helper.c in Sources */,
+				8468BFCB1FC4BC1000F21A3A /* pass-through-power-up.cpp in Sources */,
+				8468BFAE1FC2032E00F21A3A /* live-component.cpp in Sources */,
 				84A3EC011F882A9300EDCCB8 /* texture.cpp in Sources */,
 				84A3EC081F882E0500EDCCB8 /* texture-loader.cpp in Sources */,
 				8418F5601F894C5700DDA4B1 /* game-level.cpp in Sources */,
 				84A3EC191F89304200EDCCB8 /* sprite-renderer.cpp in Sources */,
 				84A3EBFE1F88299100EDCCB8 /* shader.cpp in Sources */,
+				8468BFD21FC4BD9B00F21A3A /* confuse-power-up.cpp in Sources */,
 				84A3EC161F8830B600EDCCB8 /* main.cpp in Sources */,
+				8468BFCF1FC4BC2600F21A3A /* pad-size-increase-power-up.cpp in Sources */,
+				8468BFCA1FC4BC1000F21A3A /* change-speed-power-up.cpp in Sources */,
+				8468BFB61FC20E2800F21A3A /* power-ups-controller.cpp in Sources */,
+				8468BFB31FC20B9400F21A3A /* power-ups-factory.cpp in Sources */,
 				84845B1E1F1D44DF0073978C /* stb_image_aug.c in Sources */,
+				8468BFCC1FC4BC1000F21A3A /* sticky-power-up.cpp in Sources */,
 				84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */,
 				8425D6531F8BF00B008B5B9D /* ball-object.cpp in Sources */,
 				8425D6611F93AC67008B5B9D /* post-processor.cpp in Sources */,
+				8482EB3F1FC4C202002310C7 /* chaos-power-up.cpp in Sources */,
 				84A3EBFA1F88289E00EDCCB8 /* game.cpp in Sources */,
 				35F58DA01F58B5D60094854C /* glm.cpp in Sources */,
 				84845B1D1F1D44DF0073978C /* SOIL.c in Sources */,
 				84A3EC051F882C7700EDCCB8 /* shader-loader.cpp in Sources */,
+				8468BFA71FC202D900F21A3A /* player.cpp in Sources */,
 				8425D65A1F8D51B5008B5B9D /* particle-generator.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

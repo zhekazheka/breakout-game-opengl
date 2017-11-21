@@ -16,9 +16,21 @@
 
 #include "game-object.h"
 
+class Player;
+class BallObject;
+
+enum EPowerUpType
+{
+    Speed,
+    Sticky,
+    PassThrough,
+    PadSizeIncrease,
+    Confuse,
+    Chaose
+};
 
 // The size of a PowerUp block
-const glm::vec2 SIZE(60, 20);
+static const glm::vec2 SIZE(60, 20);
 // Velocity a PowerUp block has when spawned
 const glm::vec2 VELOCITY(0.0f, 150.0f);
 
@@ -31,12 +43,32 @@ class PowerUp : public GameObject
 {
 public:
     // PowerUp State
-    std::string Type;
+    EPowerUpType Type;
     GLfloat     Duration;
     GLboolean   Activated;
     // Constructor
-    PowerUp(std::string type, glm::vec3 color, GLfloat duration, glm::vec2 position, Texture2D texture)
+    PowerUp(EPowerUpType type, glm::vec3 color, GLfloat duration, glm::vec2 position, Texture2D texture)
     : GameObject(position, SIZE, texture, color, VELOCITY), Type(type), Duration(duration), Activated() { }
+    
+    virtual void Activate()
+    {
+        Activated = GL_TRUE;
+    }
+    
+    virtual void Deactivate()
+    {
+        Activated = GL_FALSE;
+    }
+    
+    void SetEntities(Player* player, BallObject* ball)
+    {
+        this->player = player;
+        this->ballObject = ball;
+    }
+    
+protected:
+    Player* player;
+    BallObject* ballObject;
 };
 
 #endif /* power_up_h */

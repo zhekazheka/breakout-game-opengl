@@ -18,14 +18,16 @@
 #include "texture-loader.h"
 #include "sprite-renderer.h"
 #include "game-level.h"
-#include "ball-object.h"
 #include "particle-generator.h"
 #include "post-processor.h"
 #include "power-up.h"
 #include "text-renderer.h"
 
-// Initial size of the player paddle
-const glm::vec2 PLAYER_SIZE(100, 20);
+class Player;
+class BallObject;
+class PowerUpsController;
+class PowerUpsFactory;
+
 // Initial velocity of the player paddle
 const GLfloat PLAYER_VELOCITY(500.0f);
 
@@ -67,28 +69,22 @@ public:
     void Update(GLfloat dt);
     void Render();
     
-    // [zheka] TODO move it to factory
-    void SpawnPowerUps(GameObject& block);
-    
-    // [zheka] TODO maybe move it to some sort of PowerUpController
-    void UpdatePowerUps(GLfloat dt);
-    void ActivatePowerUp(PowerUp &powerUp);
-    
 private:
     std::vector<GameLevel> levels;
-    GLuint level;
+    GLuint levelIndex;
     
     ShaderLoader* shaderLoader;
     TextureLoader* textureLoader;
     SpriteRenderer* spriteRenderer;
     TextRenderer* textRenderer;
     
-    GameObject* player;
+    Player* player;
     BallObject* ball;
     ParticleGenerator* particleGenerator;
     PostProcessor* postProcessor;
     
-    int lives;
+    PowerUpsController* powerUpsController;
+    PowerUpsFactory* powerUpsFactory;
     
     void DoCollisions();
     void ResetLevel();

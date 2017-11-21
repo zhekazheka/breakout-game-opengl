@@ -13,6 +13,10 @@
 #include "shader-loader.h"
 #include "texture-loader.h"
 #include "simple-collision-detector.h"
+#include "player.h"
+#include "ball-object.h"
+#include "power-ups-controller.h"
+#include "power-ups-factory.h"
 
 Game::Game(GLuint width, GLuint height)
 : State(GAME_MENU), Keys(), Width(width), Height(height)
@@ -28,6 +32,8 @@ Game::~Game()
     delete particleGenerator;
     delete postProcessor;
     delete textRenderer;
+    delete powerUpsController;
+    delete powerUpsFactory;
 }
 
 void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
@@ -87,11 +93,11 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     }
     
     // current level
-    this->level = 0;
+    this->levelIndex = 0;
     
     glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2,
                                     this->Height - PLAYER_SIZE.y);
-    player = new GameObject(playerPos, PLAYER_SIZE, paddleTexture);
+    player = new Player(playerPos, PLAYER_SIZE, paddleTexture, 3);
     
     glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
     ball = new BallObject(ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
@@ -103,7 +109,8 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     textRenderer = new TextRenderer(this->Width, this->Height, shaderLoader);
     textRenderer->Load("OpenGL_01/Resources/Fonts/arial.ttf", 24);
     
-    lives = 3;
+    powerUpsFactory = new PowerUpsFactory(textureLoader, postProcessor);
+    powerUpsController = new PowerUpsController(powerUpsFactory, player, ball, spriteRenderer);
 }
 
 void Game::Update(GLfloat dt)
@@ -116,8 +123,9 @@ void Game::Update(GLfloat dt)
     
     if (ball->Position.y >= this->Height) // Did ball reach bottom edge?
     {
-        --lives;
-        if(lives == 0)
+        LiveComponent* liveComponent = player->GetLiveComponent();
+        liveComponent->ReduceLives(1);
+        if(!liveComponent->IsAlive())
         {
             this->ResetLevel();
             this->State = GAME_MENU;
@@ -125,11 +133,11 @@ void Game::Update(GLfloat dt)
         this->ResetPlayer();
     }
     
-    UpdatePowerUps(dt);
+    powerUpsController->Update(dt, Height);
     
     postProcessor->Update(dt);
     
-    if (this->State == GAME_ACTIVE && this->levels[this->level].IsCompleted())
+    if (this->State == GAME_ACTIVE && this->levels[this->levelIndex].IsCompleted())
     {
         this->ResetLevel();
         this->ResetPlayer();
@@ -150,12 +158,12 @@ void Game::ProcessInput(GLfloat dt)
         }
         if (this->Keys[GLFW_KEY_W] && !this->KeysProcessed[GLFW_KEY_W])
         {
-            this->level = (this->level + 1) % 4;
+            this->levelIndex = (this->levelIndex + 1) % 4;
             this->KeysProcessed[GLFW_KEY_W] = GL_TRUE;
         }
         if (this->Keys[GLFW_KEY_S] && !this->KeysProcessed[GLFW_KEY_S])
         {
-            this->level = level > 0 ? --level : 3;
+            this->levelIndex = levelIndex > 0 ? --levelIndex : 3;
             this->KeysProcessed[GLFW_KEY_S] = GL_TRUE;
         }
     }
@@ -215,7 +223,7 @@ void Game::Render()
                              glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f
                              );
         // Draw level
-        this->levels[this->level].Draw(*spriteRenderer);
+        this->levels[this->levelIndex].Draw(*spriteRenderer);
         
         //Draw player
         this->player->Draw(*spriteRenderer);
@@ -226,20 +234,14 @@ void Game::Render()
         // Draw ball
         ball->Draw(*spriteRenderer);
         
-        for (PowerUp &powerUp : this->PowerUps)
-        {
-            if (!powerUp.Destroyed)
-            {
-                powerUp.Draw(*spriteRenderer);
-            }
-        }
+        powerUpsController->Render();
         
         postProcessor->EndRender();
         
         postProcessor->Render(glfwGetTime());
         
         std::stringstream ss;
-        ss << lives;
+        ss << player->GetLiveComponent()->GetLives();
         textRenderer->RenderText("Lives: " + ss.str(), 5.0f, 5.0f, 1.0f);
     }
     
@@ -262,7 +264,7 @@ void Game::Render()
 
 void Game::DoCollisions()
 {
-    for (GameObject &box : this->levels[this->level].Bricks)
+    for (GameObject &box : this->levels[this->levelIndex].Bricks)
     {
         if (box.Destroyed)
         {
@@ -281,7 +283,7 @@ void Game::DoCollisions()
         if(box.Destroyed)
         {
             postProcessor->SetShakeTime(0.05f);
-            SpawnPowerUps(box);
+            powerUpsController->SpawnPowerUps(box.Position);
         }
         
         // Collision resolution
@@ -323,34 +325,16 @@ void Game::DoCollisions()
         
         ball->Stuck = ball->Sticky;
     }
-    
-    for (PowerUp &powerUp : this->PowerUps)
-    {
-        if (!powerUp.Destroyed)
-        {
-            if (powerUp.Position.y >= this->Height)
-            {
-                powerUp.Destroyed = GL_TRUE;
-            }
-            
-            if (CheckCollision(*player, powerUp))
-            {	// Collided with player, now activate powerup
-                ActivatePowerUp(powerUp);
-                powerUp.Destroyed = GL_TRUE;
-                powerUp.Activated = GL_TRUE;
-            }
-        }
-    }
 }
 
 void Game::ResetLevel()
 {
     std::stringstream ss;
-    ss << "OpenGL_01/Resources/Levels/" << this->level << ".lvl";
+    ss << "OpenGL_01/Resources/Levels/" << this->levelIndex << ".lvl";
     const std::string& tmp = ss.str();
     const char* filePath = tmp.c_str();
-    this->levels[this->level].Load(filePath, this->Width, this->Height * 0.5f);
-    lives = 3;
+    this->levels[this->levelIndex].Load(filePath, this->Width, this->Height * 0.5f);
+    player->GetLiveComponent()->Reset();
 }
 
 void Game::ResetPlayer()
@@ -359,143 +343,4 @@ void Game::ResetPlayer()
     player->Size = PLAYER_SIZE;
     player->Position = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2, this->Height - PLAYER_SIZE.y);
     ball->Reset(player->Position + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -(BALL_RADIUS * 2)), INITIAL_BALL_VELOCITY);
-}
-
-GLboolean ShouldSpawn(GLuint chance)
-{
-    GLuint random = rand() % chance;
-    return random == 0;
-}
-
-void Game::SpawnPowerUps(GameObject &block)
-{
-    if (ShouldSpawn(75)) // 1 in 75 chance
-    {
-        this->PowerUps.push_back(PowerUp("speed", glm::vec3(0.5f, 0.5f, 1.0f), 0.0f, block.Position, textureLoader->GetTexture("powerUpSpeed")));
-    }
-
-    if (ShouldSpawn(75))
-    {
-        this->PowerUps.push_back(PowerUp("sticky", glm::vec3(1.0f, 0.5f, 1.0f), 20.0f, block.Position, textureLoader->GetTexture("powerUpSticky")));
-    }
-
-    if (ShouldSpawn(75))
-    {
-        this->PowerUps.push_back(PowerUp("pass-through", glm::vec3(0.5f, 1.0f, 0.5f), 10.0f, block.Position, textureLoader->GetTexture("powerUpPass")));
-    }
-                     
-    if (ShouldSpawn(75))
-    {
-        this->PowerUps.push_back(PowerUp("pad-size-increase", glm::vec3(1.0f, 0.6f, 0.4), 0.0f, block.Position, textureLoader->GetTexture("powerUpSize")));
-    }
-                     
-    if (ShouldSpawn(15)) // Negative powerups should spawn more often
-    {
-        this->PowerUps.push_back(PowerUp("confuse", glm::vec3(1.0f, 0.3f, 0.3f), 15.0f, block.Position, textureLoader->GetTexture("powerUpConfuse")));
-    }
-    
-    if (ShouldSpawn(15))
-    {
-        this->PowerUps.push_back(PowerUp("chaos", glm::vec3(0.9f, 0.25f, 0.25f), 15.0f, block.Position, textureLoader->GetTexture("powerUpChaos")));
-    }
-}
-
-void Game::ActivatePowerUp(PowerUp &powerUp)
-{
-    // Initiate a powerup based type of powerup
-    if (powerUp.Type == "speed")
-    {
-        ball->Velocity *= 1.2;
-    }
-    else if (powerUp.Type == "sticky")
-    {
-        ball->Sticky = GL_TRUE;
-        player->Color = glm::vec3(1.0f, 0.5f, 1.0f);
-    }
-    else if (powerUp.Type == "pass-through")
-    {
-        ball->PassThrough = GL_TRUE;
-        ball->Color = glm::vec3(1.0f, 0.5f, 0.5f);
-    }
-    else if (powerUp.Type == "pad-size-increase")
-    {
-        player->Size.x += 50;
-    }
-    else if (powerUp.Type == "confuse")
-    {
-        if (!postProcessor->Chaos)
-        {
-            postProcessor->Confuse = GL_TRUE; // Only activate if chaos wasn't already active
-        }
-    }
-    else if (powerUp.Type == "chaos")
-    {
-        if (!postProcessor->Confuse)
-        {
-            postProcessor->Chaos = GL_TRUE;
-        }
-    }
-}
-
-GLboolean IsOtherPowerUpActive(std::vector<PowerUp> &powerUps, std::string type)
-{
-    for (const PowerUp &powerUp : powerUps)
-    {
-        if (powerUp.Activated)
-            if (powerUp.Type == type)
-                return GL_TRUE;
-    }
-    return GL_FALSE;
-}
-
-void Game::UpdatePowerUps(GLfloat dt)
-{
-    for (PowerUp &powerUp : this->PowerUps)
-    {
-        powerUp.Position += powerUp.Velocity * dt;
-        if (powerUp.Activated)
-        {
-            powerUp.Duration -= dt;
-            
-            if (powerUp.Duration <= 0.0f)
-            {
-                // Remove powerup from list (will later be removed)
-                powerUp.Activated = GL_FALSE;
-                // Deactivate effects
-                if (powerUp.Type == "sticky")
-                {
-                    if (!IsOtherPowerUpActive(this->PowerUps, "sticky"))
-                    {	// Only reset if no other PowerUp of type sticky is active
-                        ball->Sticky = GL_FALSE;
-                        player->Color = glm::vec3(1.0f);
-                    }
-                }
-                else if (powerUp.Type == "pass-through")
-                {
-                    if (!IsOtherPowerUpActive(this->PowerUps, "pass-through"))
-                    {	// Only reset if no other PowerUp of type pass-through is active
-                        ball->PassThrough = GL_FALSE;
-                        ball->Color = glm::vec3(1.0f);
-                    }
-                }
-                else if (powerUp.Type == "confuse")
-                {
-                    if (!IsOtherPowerUpActive(this->PowerUps, "confuse"))
-                    {	// Only reset if no other PowerUp of type confuse is active
-                        postProcessor->Confuse = GL_FALSE;
-                    }
-                }
-                else if (powerUp.Type == "chaos")
-                {
-                    if (!IsOtherPowerUpActive(this->PowerUps, "chaos"))
-                    {	// Only reset if no other PowerUp of type chaos is active
-                        postProcessor->Chaos = GL_FALSE;
-                    }
-                }
-            }
-        }
-    }
-    this->PowerUps.erase(std::remove_if(this->PowerUps.begin(), this->PowerUps.end(),
-                                        [](const PowerUp &powerUp) { return powerUp.Destroyed && !powerUp.Activated; }
-                                        ), this->PowerUps.end());
 }
