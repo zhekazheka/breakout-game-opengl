@@ -11,9 +11,12 @@
 #include <fstream>
 #include <sstream>
 
-GameLevel::GameLevel(TextureLoader* textureLoader)
+#include "collision-detector.h"
+
+GameLevel::GameLevel(TextureLoader* textureLoader, CollisionDetector* collisionDetector)
 {
     this->textureLoader = textureLoader;
+    this->collisionDetector = collisionDetector;
 }
 
 // [zheka] TODO move this part to separate loader
@@ -50,20 +53,24 @@ void GameLevel::Load(const GLchar *file, GLuint levelWidth, GLuint levelHeight)
 
 void GameLevel::Draw(SpriteRenderer &renderer)
 {
-    for (GameObject &tile : this->Bricks)
+    for (GameObject* tile : this->Bricks)
     {
-        if (!tile.Destroyed)
+        if (!tile->Destroyed)
         {
-            tile.Draw(renderer);
+            tile->Draw(renderer);
+        }
+        else
+        {
+            tile->Color = glm::vec3(0, 0, 0);
         }
     }
 }
 
 GLboolean GameLevel::IsCompleted()
 {
-    for (GameObject &tile : this->Bricks)
+    for (GameObject* tile : this->Bricks)
     {
-        if (!tile.IsSolid && !tile.Destroyed)
+        if (!tile->IsSolid && !tile->Destroyed)
         {
             return GL_FALSE;
         }
@@ -90,8 +97,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
             // Check block type from level data (2D level array)
             if (tileData[y][x] == 1) // Solid
             {
-                GameObject obj(pos, size, textureLoader->GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f));
-                obj.IsSolid = GL_TRUE;
+                Brick* obj = new Brick(collisionDetector, pos, size, textureLoader->GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f), true);
                 this->Bricks.push_back(obj);
             }
             else if (tileData[y][x] > 1)	// Non-solid; now determine its color based on level data
@@ -114,7 +120,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
                     color = glm::vec3(1.0f, 0.5f, 0.0f);
                 }
                 
-                this->Bricks.push_back(GameObject(pos, size, textureLoader->GetTexture("block"), color));
+                this->Bricks.push_back(new Brick(collisionDetector, pos, size, textureLoader->GetTexture("block"), color, GL_FALSE));
             }
         }
     }

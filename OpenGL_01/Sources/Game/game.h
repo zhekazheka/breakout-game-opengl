@@ -27,6 +27,7 @@ class Player;
 class BallObject;
 class PowerUpsController;
 class PowerUpsFactory;
+class CollisionDetector;
 
 // Initial velocity of the player paddle
 const GLfloat PLAYER_VELOCITY(500.0f);
@@ -85,6 +86,8 @@ private:
     
     PowerUpsController* powerUpsController;
     PowerUpsFactory* powerUpsFactory;
+    
+    CollisionDetector* collisionDetector;
     
     void DoCollisions();
     void ResetLevel();

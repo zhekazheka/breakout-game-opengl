@@ -9,19 +9,22 @@
 #ifndef player_h
 #define player_h
 
-#include "game-object.h"
 #include "live-component.h"
+#include "collidable.h"
 
 // Initial size of the player paddle
 const glm::vec2 PLAYER_SIZE(100, 20);
 
-class Player : public GameObject
+class Player : public Collidable
 {
 public:
-    Player(glm::vec2 startPosition, glm::vec2 size, Texture2D texture, int initialLives);
+    Player(CollisionDetector* collisionDetector, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, int initialLives);
     ~Player();
     
     LiveComponent* GetLiveComponent() const;
+    
+    bool IsDynamic();
+    void HandleCollision(const GameObject &other, Collision& collision);
     
 private:
     LiveComponent* liveComponent;

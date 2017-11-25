@@ -17,7 +17,9 @@
 #include "game-object.h"
 #include "sprite-renderer.h"
 #include "texture-loader.h"
+#include "brick.h"
 
+class CollisionDetector;
 
 /// GameLevel holds all Tiles as part of a Breakout level and
 /// hosts functionality to Load/render levels from the harddisk.
@@ -25,11 +27,11 @@ class GameLevel
 {
 public:
     // Level state
-    std::vector<GameObject> Bricks;
+    std::vector<Brick*> Bricks;
     
     // Constructors
     GameLevel() { }
-    GameLevel(TextureLoader* textureLoader);
+    GameLevel(TextureLoader* textureLoader, CollisionDetector* collisionDetector);
     
     // Loads level from file
     void Load(const GLchar *file, GLuint levelWidth, GLuint levelHeight);
@@ -44,6 +46,7 @@ private:
     void init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidth, GLuint levelHeight);
     
     TextureLoader* textureLoader;
+    CollisionDetector* collisionDetector;
 };
 
 #endif /* game_level_h */
