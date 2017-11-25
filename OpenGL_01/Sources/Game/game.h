@@ -67,9 +67,8 @@ private:
     void ResetLevel();
     void ResetPlayer();
     
-//    std::vector<GameLevel> levels;
-    GLuint levelIndex;
-    GameLevel* currentLevel;
+    std::vector<std::unique_ptr<GameLevel>> levels;
+    int levelIndex;
     
     ShaderLoader* shaderLoader;
     TextureLoader* textureLoader;

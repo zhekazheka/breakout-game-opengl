@@ -9,16 +9,20 @@
 #include "collision-detector.h"
 #include "simple-collision-detector.h"
 
-int blah;
-
 void CollisionDetector::RegisterCollider(Collidable* collidable)
 {
     if(std::find(colliders.begin(), colliders.end(), collidable) == colliders.end())
     {
         colliders.push_back(collidable);
-        ++blah;
-        
-        std::cout << "blah: " << blah << std::endl;
+    }
+}
+
+void CollisionDetector::DeregisterCollider(Collidable* collidable)
+{
+    std::vector<Collidable*>::iterator it = std::find(colliders.begin(), colliders.end(), collidable);
+    if(it != colliders.end())
+    {
+        colliders.erase(it);
     }
 }
 
@@ -42,15 +46,21 @@ void CollisionDetector::Update(float dt)
                 continue;
             }
             
-            if(HandleBallCollision(leftCollider, rightCollider))
+            if(leftCollider->GetCollisionType() == ECollisionType::BALL || rightCollider->GetCollisionType() == ECollisionType::BALL)
             {
-                break;
+                if(HandleBallCollision(leftCollider, rightCollider))
+                {
+                    break;
+                }
             }
-            
-            if(CheckCollision(*leftCollider, *rightCollider))
+            else
             {
-                Collision collision = std::make_tuple(GL_FALSE, UP, glm::vec2(0, 0));
-                DispatchCollisions(leftCollider, rightCollider, collision);
+                if(CheckCollision(*leftCollider, *rightCollider))
+                {
+                    Collision collision = std::make_tuple(GL_FALSE, UP, glm::vec2(0, 0));
+                    DispatchCollisions(leftCollider, rightCollider, collision);
+                    break;
+                }
             }
         }
     }

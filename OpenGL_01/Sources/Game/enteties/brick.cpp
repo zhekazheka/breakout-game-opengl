@@ -10,12 +10,12 @@
 
 #include <iostream>
 
-Brick::Brick(CollisionDetector* collisionDetector, bool isSolid)
-: Collidable(collisionDetector, isSolid)
+Brick::Brick(bool isSolid)
+: Collidable(isSolid)
 { }
 
-Brick::Brick(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color)
-: Collidable(collisionDetector, isSolid, startPosition, size, texture, color)
+Brick::Brick(bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color)
+: Collidable(isSolid, startPosition, size, texture, color)
 { }
 
 bool Brick::IsDynamic() const

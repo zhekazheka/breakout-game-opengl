@@ -14,8 +14,8 @@
 class Brick : public Collidable
 {
 public:
-    Brick(CollisionDetector* collisionDetector, bool isSolid);
-    Brick(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color);
+    Brick(bool isSolid);
+    Brick(bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color);
     
     bool IsDynamic() const;
     ECollisionType GetCollisionType() const;

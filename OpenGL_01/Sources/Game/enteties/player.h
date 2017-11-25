@@ -21,7 +21,7 @@ const glm::vec2 PLAYER_SIZE(100, 20);
 class Player : public Collidable
 {
 public:
-    Player(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, int initialLives);
+    Player(bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, int initialLives);
     ~Player();
     
     LiveComponent* GetLiveComponent() const;

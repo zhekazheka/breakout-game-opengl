@@ -19,6 +19,7 @@ class CollisionDetector
 {
 public:
     void RegisterCollider(Collidable* collidable);
+    void DeregisterCollider(Collidable* collidable);
     void Update(float dt);
     
 private:

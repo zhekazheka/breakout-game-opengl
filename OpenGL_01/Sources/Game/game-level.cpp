@@ -13,10 +13,9 @@
 
 #include "collision-detector.h"
 
-GameLevel::GameLevel(TextureLoader* textureLoader, CollisionDetector* collisionDetector)
+GameLevel::GameLevel(TextureLoader* textureLoader)
 {
     this->textureLoader = textureLoader;
-    this->collisionDetector = collisionDetector;
 }
 
 // [zheka] TODO move this part to separate loader
@@ -51,31 +50,44 @@ void GameLevel::Load(const GLchar *file, GLuint levelWidth, GLuint levelHeight)
     }
 }
 
+void GameLevel::Start(CollisionDetector *collisionDetector)
+{
+    for (Brick* tile : this->Bricks)
+    {
+        collisionDetector->RegisterCollider(tile);
+    }
+}
+
+void GameLevel::Reset(CollisionDetector* collisionDetector)
+{
+    for (Brick* tile : this->Bricks)
+    {
+        tile->Destroyed = false;
+        collisionDetector->DeregisterCollider(tile);
+    }
+}
+
 void GameLevel::Draw(SpriteRenderer &renderer)
 {
     for (GameObject* tile : this->Bricks)
     {
-        if (tile->Destroyed)
-        {
-            tile->Color = glm::vec3(0, 0, 0);
-        }
-        else
+        if (!tile->Destroyed)
         {
             tile->Draw(renderer);
         }
     }
 }
 
-GLboolean GameLevel::IsCompleted()
+bool GameLevel::IsCompleted()
 {
-//    for (GameObject* tile : this->Bricks)
-//    {
-//        if (!tile->IsSolid && !tile->Destroyed)
-//        {
-//            return GL_FALSE;
-//        }
-//    }
-    return false;
+    for (Collidable* tile : this->Bricks)
+    {
+        if (!tile->IsSolid() && !tile->Destroyed)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 // [zheka] TODO move this part or break it apart?
@@ -97,7 +109,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
             // Check block type from level data (2D level array)
             if (tileData[y][x] == 1) // Solid
             {
-                this->Bricks.push_back(new Brick(collisionDetector, true, pos, size, textureLoader->GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f)));
+                this->Bricks.push_back(new Brick(true, pos, size, textureLoader->GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f)));
             }
             else if (tileData[y][x] > 1)	// Non-solid; now determine its color based on level data
             {
@@ -119,7 +131,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
                     color = glm::vec3(1.0f, 0.5f, 0.0f);
                 }
                 
-                this->Bricks.push_back(new Brick(collisionDetector, false, pos, size, textureLoader->GetTexture("block"), color));
+                this->Bricks.push_back(new Brick(false, pos, size, textureLoader->GetTexture("block"), color));
             }
         }
     }

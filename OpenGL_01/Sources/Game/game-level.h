@@ -31,16 +31,19 @@ public:
     
     // Constructors
     GameLevel() { }
-    GameLevel(TextureLoader* textureLoader, CollisionDetector* collisionDetector);
+    GameLevel(TextureLoader* textureLoader);
     
     // Loads level from file
     void Load(const GLchar *file, GLuint levelWidth, GLuint levelHeight);
+    
+    void Start(CollisionDetector* collisionDetector);
+    void Reset(CollisionDetector* collisionDetector);
     
     // Render level
     void Draw(SpriteRenderer &renderer);
     
     // Check if the level is completed (all non-solid tiles are destroyed)
-    GLboolean IsCompleted();
+    bool IsCompleted();
 private:
     // Initialize level from tile data
     void init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidth, GLuint levelHeight);
