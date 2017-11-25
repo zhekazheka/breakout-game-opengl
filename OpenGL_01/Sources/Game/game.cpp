@@ -36,6 +36,7 @@ Game::~Game()
     delete powerUpsController;
     delete powerUpsFactory;
     delete collisionDetector;
+    delete currentLevel;
 }
 
 void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
@@ -83,28 +84,25 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     
     
     // Load levels
-    for(int i = 0; i < 4; ++i)
-    {
-        GameLevel level(textureLoader, collisionDetector);
-        
-        std::stringstream ss;
-        ss << "OpenGL_01/Resources/Levels/" << i << ".lvl";
-        const std::string& tmp = ss.str();
-        const char* filePath = tmp.c_str();
-        level.Load(filePath, this->Width, this->Height * 0.5);
-        
-        this->levels.push_back(level);
-    }
-    
-    // current level
-    this->levelIndex = 0;
+//    for(int i = 0; i < 4; ++i)
+//    {
+//        GameLevel level(textureLoader, collisionDetector);
+//        
+//        std::stringstream ss;
+//        ss << "OpenGL_01/Resources/Levels/" << i << ".lvl";
+//        const std::string& tmp = ss.str();
+//        const char* filePath = tmp.c_str();
+//        level.Load(filePath, this->Width, this->Height * 0.5);
+//        
+//        this->levels.push_back(level);
+//    }
     
     glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2,
                                     this->Height - PLAYER_SIZE.y);
-    player = new Player(collisionDetector, playerPos, PLAYER_SIZE, paddleTexture, 3);
+    player = new Player(collisionDetector, true, playerPos, PLAYER_SIZE, paddleTexture, 3);
     
     glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
-    ball = new BallObject(collisionDetector, ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
+    ball = new BallObject(collisionDetector, true, ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
     
     particleGenerator = new ParticleGenerator(particleShader, particleTexture, 500);
     
@@ -115,13 +113,32 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     
     powerUpsFactory = new PowerUpsFactory(textureLoader, postProcessor);
     powerUpsController = new PowerUpsController(powerUpsFactory, player, ball, spriteRenderer);
+    
+    // current level
+    this->levelIndex = 0;
+    Start();
+}
+
+void Game::Start()
+{
+    if(currentLevel != nullptr)
+    {
+        delete currentLevel;
+    }
+    
+    currentLevel = new GameLevel(textureLoader, collisionDetector);
+
+    std::stringstream ss;
+    ss << "OpenGL_01/Resources/Levels/" << levelIndex << ".lvl";
+    const std::string& tmp = ss.str();
+    const char* filePath = tmp.c_str();
+    currentLevel->Load(filePath, this->Width, this->Height * 0.5);
 }
 
 void Game::Update(GLfloat dt)
 {
     ball->Move(dt, this->Width);
     
-//    DoCollisions();
     collisionDetector->Update(dt);
     
     particleGenerator->Update(dt, *ball, 2, glm::vec2(ball->Radius / 2));
@@ -142,7 +159,7 @@ void Game::Update(GLfloat dt)
     
     postProcessor->Update(dt);
     
-    if (this->State == GAME_ACTIVE && this->levels[this->levelIndex].IsCompleted())
+    if (this->State == GAME_ACTIVE && currentLevel->IsCompleted())
     {
         this->ResetLevel();
         this->ResetPlayer();
@@ -228,7 +245,7 @@ void Game::Render()
                              glm::vec2(0, 0), glm::vec2(this->Width, this->Height), 0.0f
                              );
         // Draw level
-        this->levels[this->levelIndex].Draw(*spriteRenderer);
+        currentLevel->Draw(*spriteRenderer);
         
         //Draw player
         this->player->Draw(*spriteRenderer);
@@ -267,78 +284,8 @@ void Game::Render()
     }
 }
 
-void Game::DoCollisions()
-{
-//    for (GameObject &box : this->levels[this->levelIndex].Bricks)
-//    {
-//        if (box.Destroyed)
-//        {
-//            continue;
-//        }
-//        
-//        Collision collision = CheckCollision(*ball, box);
-//        if (!std::get<0>(collision)) // If collision is true
-//        {
-//            continue;
-//        }
-//        
-//        // Destroy block if not solid
-//        box.Destroyed = !box.IsSolid;
-//        
-//        if(box.Destroyed)
-//        {
-//            postProcessor->SetShakeTime(0.05f);
-//            powerUpsController->SpawnPowerUps(box.Position);
-//        }
-//        
-//        // Collision resolution
-//        Direction dir = std::get<1>(collision);
-//        glm::vec2 diff_vector = std::get<2>(collision);
-//        
-//        if (!(ball->PassThrough && !box.IsSolid))
-//        {
-//            if (dir == LEFT || dir == RIGHT) // Horizontal collision
-//            {
-//                ball->Velocity.x = -ball->Velocity.x; // Reverse horizontal velocity
-//                // Relocate
-//                GLfloat penetration = ball->Radius - std::abs(diff_vector.x);
-//                ball->Position.x += dir == LEFT ? penetration : -penetration;
-//            }
-//            else // Vertical collision
-//            {
-//                ball->Velocity.y = -ball->Velocity.y; // Reverse vertical velocity
-//                // Relocate
-//                GLfloat penetration = ball->Radius - std::abs(diff_vector.y);
-//                ball->Position.y += dir == DOWN ? penetration : -penetration;
-//            }
-//        }
-//    }
-//    
-//    Collision result = CheckCollision(*ball, *player);
-//    if (!ball->Stuck && std::get<0>(result))
-//    {
-//        // Check where it hit the board, and change velocity based on where it hit the board
-//        GLfloat centerBoard = player->Position.x + player->Size.x / 2;
-//        GLfloat distance = (ball->Position.x + ball->Radius) - centerBoard;
-//        GLfloat percentage = distance / (player->Size.x / 2);
-//        // Then move accordingly
-//        GLfloat strength = 2.0f;
-//        glm::vec2 oldVelocity = ball->Velocity;
-//        ball->Velocity.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
-//        ball->Velocity.y = -1 * abs(ball->Velocity.y);
-//        ball->Velocity = glm::normalize(ball->Velocity) * glm::length(oldVelocity);
-//        
-//        ball->Stuck = ball->Sticky;
-//    }
-}
-
 void Game::ResetLevel()
 {
-    std::stringstream ss;
-    ss << "OpenGL_01/Resources/Levels/" << this->levelIndex << ".lvl";
-    const std::string& tmp = ss.str();
-    const char* filePath = tmp.c_str();
-    this->levels[this->levelIndex].Load(filePath, this->Width, this->Height * 0.5f);
     player->GetLiveComponent()->Reset();
 }
 

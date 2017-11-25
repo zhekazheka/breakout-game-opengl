@@ -14,11 +14,13 @@
 class Brick : public Collidable
 {
 public:
-    Brick(CollisionDetector* collisionDetector);
-    Brick(CollisionDetector* collisionDetector, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color, bool isSolid);
+    Brick(CollisionDetector* collisionDetector, bool isSolid);
+    Brick(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color);
     
-    bool IsDynamic();
-    void HandleCollision(const GameObject &other, Collision& collision);
+    bool IsDynamic() const;
+    ECollisionType GetCollisionType() const;
+    void HandleCollision(const ICollidable* other, Collision& collision);
+    
 };
 
 #endif /* brick_h */

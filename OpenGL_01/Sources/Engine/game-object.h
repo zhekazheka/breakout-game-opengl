@@ -26,8 +26,7 @@ public:
     glm::vec2   Position, Size, Velocity;
     glm::vec3   Color;
     GLfloat     Rotation;
-    GLboolean   IsSolid;
-    GLboolean   Destroyed;
+    bool   Destroyed;
     
     // Render state
     Texture2D   Sprite;

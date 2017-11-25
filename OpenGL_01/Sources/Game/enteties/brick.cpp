@@ -10,24 +10,27 @@
 
 #include <iostream>
 
-Brick::Brick(CollisionDetector* collisionDetector)
-: Collidable(collisionDetector)
+Brick::Brick(CollisionDetector* collisionDetector, bool isSolid)
+: Collidable(collisionDetector, isSolid)
 { }
 
-Brick::Brick(CollisionDetector* collisionDetector, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color, bool isSolid)
-: Collidable(collisionDetector, startPosition, size, texture, color)
-{
-    IsSolid = isSolid;
-}
+Brick::Brick(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, glm::vec3 color)
+: Collidable(collisionDetector, isSolid, startPosition, size, texture, color)
+{ }
 
-bool Brick::IsDynamic()
+bool Brick::IsDynamic() const
 {
     return false;
 }
 
-void Brick::HandleCollision(const GameObject &other, Collision& collision)
+ECollisionType Brick::GetCollisionType() const
 {
-    std::cout << "[Brick::HandleCollision] with " << other.Sprite.ID;
+    return ECollisionType::BRICK;
+}
+
+void Brick::HandleCollision(const ICollidable* other, Collision& collision)
+{
+//    std::cout << "[Brick::HandleCollision] with " << other.Sprite.ID;
     
-    Destroyed = !IsSolid;
+    Destroyed = !IsSolid();
 }

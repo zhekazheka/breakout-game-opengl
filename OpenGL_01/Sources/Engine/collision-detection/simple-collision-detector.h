@@ -19,7 +19,7 @@
 #include "collidable.h"
 #include "collision-types.h"
 
-Direction VectorDirection(glm::vec2 target)
+EDirection VectorDirection(glm::vec2 target)
 {
     glm::vec2 compass[] = {
         glm::vec2(0.0f, 1.0f),	// up
@@ -38,7 +38,7 @@ Direction VectorDirection(glm::vec2 target)
             best_match = i;
         }
     }
-    return (Direction)best_match;
+    return (EDirection)best_match;
 }
 
 GLboolean CheckCollision(GameObject &one, GameObject &two) // AABB - AABB collision

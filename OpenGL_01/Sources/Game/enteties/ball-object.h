@@ -16,6 +16,11 @@
 #include "sprite-renderer.h"
 #include "collidable.h"
 
+// Initial velocity of the Ball
+const glm::vec2 INITIAL_BALL_VELOCITY(100.0f, -350.0f);
+// Radius of the ball object
+const GLfloat BALL_RADIUS = 12.5f;
+
 // BallObject holds the state of the Ball object inheriting
 // relevant state data from GameObject. Contains some extra
 // functionality specific to Breakout's ball object that
@@ -29,16 +34,17 @@ public:
     GLboolean Sticky, PassThrough;
     
     // Constructor(s)
-    BallObject(CollisionDetector* collisionDetector);
-    BallObject(CollisionDetector* collisionDetector, glm::vec2 pos, GLfloat radius, glm::vec2 velocity, Texture2D sprite);
+    BallObject(CollisionDetector* collisionDetector, bool isSolid);
+    BallObject(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 pos, GLfloat radius, glm::vec2 velocity, Texture2D sprite);
     
     // Moves the ball, keeping it constrained within the window bounds (except bottom edge); returns new position
     glm::vec2 Move(GLfloat dt, GLuint window_width);
     // Resets the ball to original state with given position and velocity
     void Reset(glm::vec2 position, glm::vec2 velocity);
     
-    bool IsDynamic();
-    void HandleCollision(const GameObject &other, Collision& collision);
+    bool IsDynamic() const;
+    ECollisionType GetCollisionType() const;
+    void HandleCollision(const ICollidable* other, Collision& collision);
 };
 
 #endif /* ball_object_h */

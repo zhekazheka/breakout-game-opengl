@@ -55,27 +55,27 @@ void GameLevel::Draw(SpriteRenderer &renderer)
 {
     for (GameObject* tile : this->Bricks)
     {
-        if (!tile->Destroyed)
+        if (tile->Destroyed)
         {
-            tile->Draw(renderer);
+            tile->Color = glm::vec3(0, 0, 0);
         }
         else
         {
-            tile->Color = glm::vec3(0, 0, 0);
+            tile->Draw(renderer);
         }
     }
 }
 
 GLboolean GameLevel::IsCompleted()
 {
-    for (GameObject* tile : this->Bricks)
-    {
-        if (!tile->IsSolid && !tile->Destroyed)
-        {
-            return GL_FALSE;
-        }
-    }
-    return GL_TRUE;
+//    for (GameObject* tile : this->Bricks)
+//    {
+//        if (!tile->IsSolid && !tile->Destroyed)
+//        {
+//            return GL_FALSE;
+//        }
+//    }
+    return false;
 }
 
 // [zheka] TODO move this part or break it apart?
@@ -97,8 +97,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
             // Check block type from level data (2D level array)
             if (tileData[y][x] == 1) // Solid
             {
-                Brick* obj = new Brick(collisionDetector, pos, size, textureLoader->GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f), true);
-                this->Bricks.push_back(obj);
+                this->Bricks.push_back(new Brick(collisionDetector, true, pos, size, textureLoader->GetTexture("block_solid"), glm::vec3(0.8f, 0.8f, 0.7f)));
             }
             else if (tileData[y][x] > 1)	// Non-solid; now determine its color based on level data
             {
@@ -120,7 +119,7 @@ void GameLevel::init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidt
                     color = glm::vec3(1.0f, 0.5f, 0.0f);
                 }
                 
-                this->Bricks.push_back(new Brick(collisionDetector, pos, size, textureLoader->GetTexture("block"), color, GL_FALSE));
+                this->Bricks.push_back(new Brick(collisionDetector, false, pos, size, textureLoader->GetTexture("block"), color));
             }
         }
     }

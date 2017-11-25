@@ -12,13 +12,21 @@
 #include <glm/glm.hpp>
 #include <tuple>
 
-enum Direction {
+enum EDirection
+{
     UP,
     RIGHT,
     DOWN,
     LEFT
 };
 
-typedef std::tuple<bool, Direction, glm::vec2> Collision;
+enum ECollisionType
+{
+    BALL,
+    PLAYER,
+    BRICK
+};
+
+typedef std::tuple<bool, EDirection, glm::vec2> Collision;
 
 #endif /* collision_types_h */

@@ -16,11 +16,17 @@ class GameObject;
 class ICollidable
 {
 public:
-    // define if object is dynamic for collision and therefore should be process on each frame
-    virtual bool IsDynamic() = 0;
+    // defines if object is dynamic for collision and therefore should be process on each frame
+    virtual bool IsDynamic() const = 0;
+    
+    // defines if object solid and cannot be pass through
+    virtual bool IsSolid() const = 0;
+    
+    // defines an object collision type
+    virtual ECollisionType GetCollisionType() const = 0;
     
     // calls on collision detected
-    virtual void HandleCollision(const GameObject &other, Collision& collision) = 0;
+    virtual void HandleCollision(const ICollidable* other, Collision& collision) = 0;
 };
 
 #endif /* icollidable_h */

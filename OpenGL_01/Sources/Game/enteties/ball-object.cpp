@@ -10,12 +10,15 @@
 
 #include <iostream>
 
-BallObject::BallObject(CollisionDetector* collisionDetector)
-: Collidable(collisionDetector), Radius(12.5f), Stuck(true), Sticky(GL_FALSE), PassThrough(GL_FALSE)
+#include "brick.h"
+#include "player.h"
+
+BallObject::BallObject(CollisionDetector* collisionDetector, bool isSolid)
+: Collidable(collisionDetector, isSolid), Radius(12.5f), Stuck(true), Sticky(GL_FALSE), PassThrough(GL_FALSE)
 { }
 
-BallObject::BallObject(CollisionDetector* collisionDetector, glm::vec2 pos, GLfloat radius, glm::vec2 velocity, Texture2D sprite)
-:  Collidable(collisionDetector, pos, glm::vec2(radius * 2, radius * 2), sprite, glm::vec3(1.0f), velocity), Radius(radius),
+BallObject::BallObject(CollisionDetector* collisionDetector, bool isSolid, glm::vec2 pos, GLfloat radius, glm::vec2 velocity, Texture2D sprite)
+:  Collidable(collisionDetector, isSolid, pos, glm::vec2(radius * 2, radius * 2), sprite, glm::vec3(1.0f), velocity), Radius(radius),
    Stuck(true), Sticky(GL_FALSE), PassThrough(GL_FALSE)
 { }
 
@@ -57,12 +60,59 @@ void BallObject::Reset(glm::vec2 position, glm::vec2 velocity)
     this->PassThrough = false;
 }
 
-bool BallObject::IsDynamic()
+bool BallObject::IsDynamic() const
 {
     return true;
 }
 
-void BallObject::HandleCollision(const GameObject &other, Collision& collision)
+ECollisionType BallObject::GetCollisionType() const
 {
-    std::cout << "[BallObject::HandleCollision] with " << other.Sprite.ID;
+    return ECollisionType::BALL;
+}
+
+void BallObject::HandleCollision(const ICollidable* other, Collision& collision)
+{    
+    EDirection dir = std::get<1>(collision);
+    glm::vec2 diff_vector = std::get<2>(collision);
+    
+    if(other->GetCollisionType() == ECollisionType::BRICK)
+    {
+        if (!(PassThrough && !other->IsSolid()))
+        {
+            if (dir == LEFT || dir == RIGHT) // Horizontal collision
+            {
+                Velocity.x = -Velocity.x; // Reverse horizontal velocity
+                // Relocate
+                GLfloat penetration = Radius - std::abs(diff_vector.x);
+                Position.x += dir == LEFT ? penetration : -penetration;
+            }
+            else // Vertical collision
+            {
+                Velocity.y = -Velocity.y; // Reverse vertical velocity
+                // Relocate
+                GLfloat penetration = Radius - std::abs(diff_vector.y);
+                Position.y += dir == DOWN ? penetration : -penetration;
+            }
+        }
+    }
+    else if(other->GetCollisionType() == ECollisionType::PLAYER)
+    {
+        if (!Stuck)
+        {
+            const Player* player = dynamic_cast<const Player*>(other);
+            
+            // Check where it hit the board, and change velocity based on where it hit the board
+            GLfloat centerBoard = player->Position.x + player->Size.x / 2;
+            GLfloat distance = (Position.x + Radius) - centerBoard;
+            GLfloat percentage = distance / (player->Size.x / 2);
+            // Then move accordingly
+            GLfloat strength = 2.0f;
+            glm::vec2 oldVelocity = Velocity;
+            Velocity.x = INITIAL_BALL_VELOCITY.x * percentage * strength;
+            Velocity.y = -1 * abs(Velocity.y);
+            Velocity = glm::normalize(Velocity) * glm::length(oldVelocity);
+            
+            Stuck = Sticky;
+        }
+    }
 }

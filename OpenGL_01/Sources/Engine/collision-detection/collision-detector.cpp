@@ -9,11 +9,16 @@
 #include "collision-detector.h"
 #include "simple-collision-detector.h"
 
+int blah;
+
 void CollisionDetector::RegisterCollider(Collidable* collidable)
 {
     if(std::find(colliders.begin(), colliders.end(), collidable) == colliders.end())
     {
         colliders.push_back(collidable);
+        ++blah;
+        
+        std::cout << "blah: " << blah << std::endl;
     }
 }
 
@@ -39,7 +44,7 @@ void CollisionDetector::Update(float dt)
             
             if(HandleBallCollision(leftCollider, rightCollider))
             {
-                continue;
+                break;
             }
             
             if(CheckCollision(*leftCollider, *rightCollider))
@@ -69,6 +74,7 @@ bool CollisionDetector::HandleBallCollision(Collidable *left, Collidable *right)
     if(std::get<0>(collision))
     {
         DispatchCollisions(left, right, collision);
+        return true;
     }
     
    return false;
@@ -76,6 +82,6 @@ bool CollisionDetector::HandleBallCollision(Collidable *left, Collidable *right)
 
 void CollisionDetector::DispatchCollisions(Collidable *left, Collidable *right, Collision& collision)
 {
-    left->HandleCollision(*right, collision);
-    right->HandleCollision(*left, collision);
+    left->HandleCollision(right, collision);
+    right->HandleCollision(left, collision);
 }
