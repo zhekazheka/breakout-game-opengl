@@ -10,8 +10,8 @@
 
 #include <iostream>
 
-Player::Player(bool isSolid, glm::vec2 startPosition, glm::vec2 size, Texture2D texture, int initialLives)
-: Collidable(isSolid, startPosition, size, texture)
+Player::Player(bool isSolid, glm::vec2 startPosition, Texture2D texture, int initialLives)
+: Collidable(isSolid, startPosition, PLAYER_SIZE, texture)
 {
     liveComponent = new LiveComponent(initialLives, initialLives);
 }

@@ -20,7 +20,6 @@ public:
     bool IsDynamic() const;
     ECollisionType GetCollisionType() const;
     void HandleCollision(const ICollidable* other, Collision& collision);
-    
 };
 
 #endif /* brick_h */

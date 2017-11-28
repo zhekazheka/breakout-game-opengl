@@ -22,6 +22,7 @@
 #include "post-processor.h"
 #include "power-up.h"
 #include "text-renderer.h"
+#include "safe_event.h"
 
 class Player;
 class BallObject;
@@ -66,6 +67,7 @@ private:
     void Start();
     void ResetLevel();
     void ResetPlayer();
+    void SetupGameEvents();
     
     std::vector<std::unique_ptr<GameLevel>> levels;
     int levelIndex;

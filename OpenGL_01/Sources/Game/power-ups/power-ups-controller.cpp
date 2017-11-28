@@ -10,6 +10,9 @@
 #include "power-ups-factory.h"
 #include "player.h"
 #include "ball-object.h"
+#include "game-events.h"
+#include "event-dispatcher.h"
+#include "brick.h"
 
 PowerUpsController::PowerUpsController(PowerUpsFactory* powerUpsFactory, Player* player, BallObject* ball, SpriteRenderer* spriteRenderer)
 {
@@ -17,6 +20,13 @@ PowerUpsController::PowerUpsController(PowerUpsFactory* powerUpsFactory, Player*
     this->player = player;
     this->ball = ball;
     this->spriteRenderer = spriteRenderer;
+    
+    EventDispatcher::GetInstance().Dispatcher.listen
+    (std::function<void(const BrickDestroyedEvent& ev)>([this](const BrickDestroyedEvent& ev)
+                                                        {
+                                                            SpawnPowerUps(ev.GetBrick()->Position);
+                                                        })
+     );
 }
 
 GLboolean ShouldSpawn(GLuint chance)
@@ -30,13 +40,17 @@ void PowerUpsController::SpawnPowerUps(glm::vec2 &position)
     std::unique_ptr<PowerUp> powerUp;
     if (ShouldSpawn(42))
     {
-        EPowerUpType type = static_cast<EPowerUpType>(rand() % EPowerUpType::Confuse);
+        int min = EPowerUpType::Speed;
+        int max = EPowerUpType::PadSizeIncrease;
+        EPowerUpType type = static_cast<EPowerUpType>((rand() % (max - min + 1)) + min);
         powerUp = powerUpsFactory->SpawnPowerUp(type, position);
     }
 
     if (ShouldSpawn(15)) // Negative powerups should spawn more often
     {
-        EPowerUpType type = static_cast<EPowerUpType>((rand() % (EPowerUpType::Chaose + 1)) + EPowerUpType::PadSizeIncrease);
+        int min = EPowerUpType::Confuse;
+        int max = EPowerUpType::Chaose;
+        EPowerUpType type = static_cast<EPowerUpType>((rand() % (max - min + 1)) + min);
         powerUp = powerUpsFactory->SpawnPowerUp(type, position);
     }
     

@@ -12,12 +12,13 @@
 
 #include "shader-loader.h"
 #include "texture-loader.h"
-//#include "simple-collision-detector.h"
 #include "player.h"
 #include "ball-object.h"
 #include "power-ups-controller.h"
 #include "power-ups-factory.h"
 #include "collision-detector.h"
+#include "game-events.h"
+#include "event-dispatcher.h"
 
 Game::Game(GLuint width, GLuint height)
 : State(GAME_MENU), Keys(), Width(width), Height(height)
@@ -43,6 +44,8 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     this->shaderLoader = shaderLoader;
     this->textureLoader = textureLoader;
     
+    SetupGameEvents();
+    
     this->collisionDetector = new CollisionDetector();
     
     Shader spriteShader = shaderLoader->LoadShader("OpenGL_01/Shaders/SpriteRendering/sprite.vert",
@@ -67,7 +70,7 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     spriteRenderer = new SpriteRenderer(spriteShader);
     
     // Load textures
-    Texture2D ballTexture = textureLoader->LoadTexture("OpenGL_01/Resources/Textures/awesomeface.png", GL_TRUE, "face");
+    Texture2D ballTexture = textureLoader->LoadTexture("OpenGL_01/Resources/Textures/sphere.png", GL_TRUE, "face");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/LevelAssets/background.jpg", GL_FALSE, "background");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/LevelAssets/block.png", GL_FALSE, "block");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/LevelAssets/block_solid.png", GL_FALSE, "block_solid");
@@ -80,7 +83,6 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/PowerUps/powerup_increase.png", GL_TRUE, "powerUpSize");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/PowerUps/powerup_confuse.png", GL_TRUE, "powerUpConfuse");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/PowerUps/powerup_chaos.png", GL_TRUE, "powerUpChaos");
-    
     
     // Load levels
     for(int i = 0; i < 4; ++i)
@@ -98,11 +100,11 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     
     glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2,
                                     this->Height - PLAYER_SIZE.y);
-    player = new Player(true, playerPos, PLAYER_SIZE, paddleTexture, 3);
+    player = new Player(true, playerPos, paddleTexture, 3);
     collisionDetector->RegisterCollider(player);
     
     glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
-    ball = new BallObject(true, ballPos, BALL_RADIUS, INITIAL_BALL_VELOCITY, ballTexture);
+    ball = new BallObject(true, ballPos, ballTexture);
     collisionDetector->RegisterCollider(ball);
     
     particleGenerator = new ParticleGenerator(particleShader, particleTexture, 500);
@@ -118,6 +120,11 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     // current level
     this->levelIndex = 0;
     Start();
+}
+
+void Game::SetupGameEvents()
+{
+    EventDispatcher::GetInstance().Dispatcher.add_event<BrickDestroyedEvent>();
 }
 
 void Game::Start()

@@ -13,6 +13,9 @@
 
 #include "collision-detector.h"
 
+GameLevel::GameLevel()
+{ }
+
 GameLevel::GameLevel(TextureLoader* textureLoader)
 {
     this->textureLoader = textureLoader;
@@ -50,7 +53,7 @@ void GameLevel::Load(const GLchar *file, GLuint levelWidth, GLuint levelHeight)
     }
 }
 
-void GameLevel::Start(CollisionDetector *collisionDetector)
+void GameLevel::Start(CollisionDetector* collisionDetector)
 {
     for (Brick* tile : this->Bricks)
     {

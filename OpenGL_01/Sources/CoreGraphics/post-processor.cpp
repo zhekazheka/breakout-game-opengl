@@ -9,6 +9,8 @@
 #include "post-processor.h"
 
 #include <iostream>
+#include "event-dispatcher.h"
+#include "game-events.h"
 
 PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height)
 : PostProcessingShader(shader), Texture(), Width(width), Height(height), Confuse(GL_FALSE), Chaos(GL_FALSE), Shake(GL_FALSE)
@@ -66,6 +68,11 @@ PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height)
         1.0 / 16, 2.0 / 16, 1.0 / 16
     };
     glUniform1fv(glGetUniformLocation(this->PostProcessingShader.ID, "blur_kernel"), 9, blur_kernel);
+    
+    EventDispatcher::GetInstance().Dispatcher.listen(std::function<void(const BrickDestroyedEvent& ev)>([this](const BrickDestroyedEvent& ev)
+      {
+          SetShakeTime(0.05f);
+      }));
 }
 
 void PostProcessor::BeginRender()

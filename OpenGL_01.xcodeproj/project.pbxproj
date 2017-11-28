@@ -33,6 +33,7 @@
 		8482EB4F1FC77968002310C7 /* player.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8482EB4C1FC77968002310C7 /* player.cpp */; };
 		8482EB521FC77996002310C7 /* brick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8482EB501FC77996002310C7 /* brick.cpp */; };
 		8482EB5C1FC9FD34002310C7 /* collision-detector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8482EB571FC9FD34002310C7 /* collision-detector.cpp */; };
+		8482EB671FCDFA91002310C7 /* dispatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8482EB661FCDFA91002310C7 /* dispatcher.cpp */; };
 		84845B081F1D40260073978C /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 84845AF01F1D40130073978C /* libSOIL.a */; };
 		84845B1B1F1D44DF0073978C /* image_DXT.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B121F1D44DF0073978C /* image_DXT.c */; };
 		84845B1C1F1D44DF0073978C /* image_helper.c in Sources */ = {isa = PBXBuildFile; fileRef = 84845B141F1D44DF0073978C /* image_helper.c */; };
@@ -64,7 +65,6 @@
 		35035DD31F436B3F0043B9EA /* SeveralLights.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SeveralLights.frag; path = Shaders/SeveralLights.frag; sourceTree = "<group>"; };
 		35035DD41F436B3F0043B9EA /* SeveralLights.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SeveralLights.vert; path = Shaders/SeveralLights.vert; sourceTree = "<group>"; };
 		35035DD51F4394810043B9EA /* libassimp.4.0.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libassimp.4.0.1.dylib; path = ../../../../../../../usr/local/Cellar/assimp/4.0.1/lib/libassimp.4.0.1.dylib; sourceTree = "<group>"; };
-		3506034A1F3B98BE00DB31B6 /* matrix.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = matrix.jpg; sourceTree = "<group>"; };
 		3506034D1F3B9EAA00DB31B6 /* DirectionalLight.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = DirectionalLight.frag; path = Shaders/DirectionalLight.frag; sourceTree = "<group>"; };
 		3506034E1F3B9EAA00DB31B6 /* DirectionalLight.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = DirectionalLight.vert; path = Shaders/DirectionalLight.vert; sourceTree = "<group>"; };
 		3506034F1F3BA80000DB31B6 /* PointLight.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = PointLight.frag; path = Shaders/PointLight.frag; sourceTree = "<group>"; };
@@ -451,6 +451,10 @@
 		8402BC921F7C287000D97CB6 /* BlinnPhong.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = BlinnPhong.vert; sourceTree = "<group>"; };
 		8402BC991F7C399400D97CB6 /* GammaCorrection.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GammaCorrection.frag; sourceTree = "<group>"; };
 		8402BC9A1F7C399400D97CB6 /* GammaCorrection.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = GammaCorrection.vert; sourceTree = "<group>"; };
+		840CB7861FCE0C3B00657CA6 /* safe_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = safe_event.h; sourceTree = "<group>"; };
+		840CB7881FCE109500657CA6 /* event-dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "event-dispatcher.h"; sourceTree = "<group>"; };
+		840CB78B1FCE1B2C00657CA6 /* sphere.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sphere.png; sourceTree = "<group>"; };
+		840CB78C1FCE1D6600657CA6 /* particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle.png; sourceTree = "<group>"; };
 		8418F55B1F894BDB00DDA4B1 /* game-object.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "game-object.cpp"; sourceTree = "<group>"; };
 		8418F55C1F894BDB00DDA4B1 /* game-object.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "game-object.h"; sourceTree = "<group>"; };
 		8418F55E1F894C5700DDA4B1 /* game-level.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "game-level.cpp"; sourceTree = "<group>"; };
@@ -467,7 +471,6 @@
 		8425D6571F8D4FF6008B5B9D /* simpleParticle.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = simpleParticle.vert; sourceTree = "<group>"; };
 		8425D6581F8D51B5008B5B9D /* particle-generator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "particle-generator.cpp"; sourceTree = "<group>"; };
 		8425D6591F8D51B5008B5B9D /* particle-generator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "particle-generator.h"; sourceTree = "<group>"; };
-		8425D65B1F8D54D0008B5B9D /* particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = particle.png; sourceTree = "<group>"; };
 		8425D65D1F93A9B2008B5B9D /* basicPostEffects.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicPostEffects.frag; sourceTree = "<group>"; };
 		8425D65E1F93A9B2008B5B9D /* basicPostEffects.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = basicPostEffects.vert; sourceTree = "<group>"; };
 		8425D65F1F93AC67008B5B9D /* post-processor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "post-processor.cpp"; sourceTree = "<group>"; };
@@ -606,6 +609,11 @@
 		8482EB591FC9FD34002310C7 /* collision-types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "collision-types.h"; sourceTree = "<group>"; };
 		8482EB5A1FC9FD34002310C7 /* icollidable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = icollidable.h; sourceTree = "<group>"; };
 		8482EB5B1FC9FD34002310C7 /* simple-collision-detector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "simple-collision-detector.h"; sourceTree = "<group>"; };
+		8482EB661FCDFA91002310C7 /* dispatcher.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = dispatcher.cpp; sourceTree = "<group>"; };
+		8482EB691FCDFA9C002310C7 /* dispatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dispatcher.h; sourceTree = "<group>"; };
+		8482EB6A1FCDFA9C002310C7 /* event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = event.h; sourceTree = "<group>"; };
+		8482EB6C1FCDFA9C002310C7 /* typed_map.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = typed_map.h; sourceTree = "<group>"; };
+		8482EB6D1FCDFBBA002310C7 /* game-events.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "game-events.h"; sourceTree = "<group>"; };
 		84845AF01F1D40130073978C /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSOIL.a; sourceTree = "<group>"; };
 		84845AFA1F1D40130073978C /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
 		84845B121F1D44DF0073978C /* image_DXT.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = image_DXT.c; sourceTree = "<group>"; };
@@ -657,29 +665,10 @@
 		84A3EC151F8830B600EDCCB8 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		84A3EC171F89304200EDCCB8 /* sprite-renderer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "sprite-renderer.cpp"; sourceTree = "<group>"; };
 		84A3EC181F89304200EDCCB8 /* sprite-renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "sprite-renderer.h"; sourceTree = "<group>"; };
-		84A3EC1A1F8930DF00EDCCB8 /* awesomeface.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = awesomeface.png; sourceTree = "<group>"; };
 		84A3EC1C1F8931BD00EDCCB8 /* sprite.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.frag; sourceTree = "<group>"; };
 		84A3EC1D1F8931BD00EDCCB8 /* sprite.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = sprite.vert; sourceTree = "<group>"; };
-		84BB90791F6E977B00D0A447 /* back.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = back.tga; sourceTree = "<group>"; };
-		84BB907A1F6E977B00D0A447 /* bottom.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = bottom.tga; sourceTree = "<group>"; };
-		84BB907B1F6E977B00D0A447 /* front.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = front.tga; sourceTree = "<group>"; };
-		84BB907C1F6E977B00D0A447 /* left.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = left.tga; sourceTree = "<group>"; };
-		84BB907D1F6E977B00D0A447 /* right.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = right.tga; sourceTree = "<group>"; };
-		84BB907E1F6E977B00D0A447 /* top.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = top.tga; sourceTree = "<group>"; };
-		84BB90801F6E977B00D0A447 /* back.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = back.tga; sourceTree = "<group>"; };
-		84BB90811F6E977B00D0A447 /* bottom.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = bottom.tga; sourceTree = "<group>"; };
-		84BB90821F6E977B00D0A447 /* front.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = front.tga; sourceTree = "<group>"; };
-		84BB90831F6E977B00D0A447 /* left.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = left.tga; sourceTree = "<group>"; };
-		84BB90841F6E977B00D0A447 /* right.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = right.tga; sourceTree = "<group>"; };
-		84BB90851F6E977B00D0A447 /* top.tga */ = {isa = PBXFileReference; lastKnownFileType = file; path = top.tga; sourceTree = "<group>"; };
 		84BB90861F6E994900D0A447 /* Cubemap.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Cubemap.frag; path = Shaders/Cubemap.frag; sourceTree = "<group>"; };
 		84BB90871F6E994900D0A447 /* Cubemap.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Cubemap.vert; path = Shaders/Cubemap.vert; sourceTree = "<group>"; };
-		84BB90891F6EA48700D0A447 /* back.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = back.jpg; sourceTree = "<group>"; };
-		84BB908A1F6EA48700D0A447 /* bottom.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bottom.jpg; sourceTree = "<group>"; };
-		84BB908B1F6EA48700D0A447 /* front.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = front.jpg; sourceTree = "<group>"; };
-		84BB908C1F6EA48700D0A447 /* left.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = left.jpg; sourceTree = "<group>"; };
-		84BB908D1F6EA48700D0A447 /* right.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = right.jpg; sourceTree = "<group>"; };
-		84BB908E1F6EA48700D0A447 /* top.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = top.jpg; sourceTree = "<group>"; };
 		84BB908F1F70528300D0A447 /* CubemapReflection.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = CubemapReflection.frag; path = Shaders/CubemapReflection.frag; sourceTree = "<group>"; };
 		84BB90901F70528300D0A447 /* CubemapReflection.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = CubemapReflection.vert; path = Shaders/CubemapReflection.vert; sourceTree = "<group>"; };
 		84BB90911F7059D600D0A447 /* CubemapRefraction.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = CubemapRefraction.frag; path = Shaders/CubemapRefraction.frag; sourceTree = "<group>"; };
@@ -696,7 +685,6 @@
 		84C70B6C1F5F3A38006FF65D /* SimpleSingleColor.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SimpleSingleColor.vert; path = Shaders/SimpleSingleColor.vert; sourceTree = "<group>"; };
 		84C70B6F1F606946006FF65D /* SimpleBlending.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SimpleBlending.frag; path = Shaders/SimpleBlending.frag; sourceTree = "<group>"; };
 		84C70B701F606946006FF65D /* SimpleBlending.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = SimpleBlending.vert; path = Shaders/SimpleBlending.vert; sourceTree = "<group>"; };
-		84C70B711F606DBC006FF65D /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
 		84C70B721F607550006FF65D /* blending_transparent_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blending_transparent_window.png; sourceTree = "<group>"; };
 		84C70B751F608F8E006FF65D /* ScreenSimple.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = ScreenSimple.frag; path = Shaders/ScreenSimple.frag; sourceTree = "<group>"; };
 		84C70B761F608F8E006FF65D /* ScreenSimple.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = ScreenSimple.vert; path = Shaders/ScreenSimple.vert; sourceTree = "<group>"; };
@@ -843,6 +831,7 @@
 		35F58B061F58B47F0094854C /* include */ = {
 			isa = PBXGroup;
 			children = (
+				8482EB681FCDFA9C002310C7 /* safe_event */,
 				8482EB401FC77523002310C7 /* signals */,
 				842C32141F86B2C0007BF8BB /* freetype */,
 				842C32721F86B2C0007BF8BB /* ft2build.h */,
@@ -857,6 +846,7 @@
 		35F58C4B1F58B47F0094854C /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				8482EB651FCDFA91002310C7 /* safe_event */,
 				842C32751F86BBE1007BF8BB /* freetype */,
 				35F58C4C1F58B47F0094854C /* assimp_4.0.1 */,
 				35F58C4E1F58B47F0094854C /* glew_2.0.0 */,
@@ -1379,16 +1369,13 @@
 		35FDB0BB1EA929FC00A51757 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				840CB78C1FCE1D6600657CA6 /* particle.png */,
+				840CB78B1FCE1B2C00657CA6 /* sphere.png */,
 				8425D6651F93BE19008B5B9D /* PowerUps */,
-				8425D65B1F8D54D0008B5B9D /* particle.png */,
 				8418F5611F89527700DDA4B1 /* LevelAssets */,
-				84A3EC1A1F8930DF00EDCCB8 /* awesomeface.png */,
-				84BB90761F6E977B00D0A447 /* Cubemaps */,
-				84C70B711F606DBC006FF65D /* grass.png */,
 				35C436E11F39075100D9BE10 /* container2.png */,
 				35FDB0BF1EA935AF00A51757 /* container.jpg */,
 				35C436E21F390AF500D9BE10 /* container2_specular.png */,
-				3506034A1F3B98BE00DB31B6 /* matrix.jpg */,
 				35FDB0C01EA935AF00A51757 /* wall.jpg */,
 				84C70B721F607550006FF65D /* blending_transparent_window.png */,
 				8402BC8C1F7C249700D97CB6 /* wood.png */,
@@ -1714,6 +1701,25 @@
 			path = "collision-detection";
 			sourceTree = "<group>";
 		};
+		8482EB651FCDFA91002310C7 /* safe_event */ = {
+			isa = PBXGroup;
+			children = (
+				8482EB661FCDFA91002310C7 /* dispatcher.cpp */,
+			);
+			path = safe_event;
+			sourceTree = "<group>";
+		};
+		8482EB681FCDFA9C002310C7 /* safe_event */ = {
+			isa = PBXGroup;
+			children = (
+				840CB7861FCE0C3B00657CA6 /* safe_event.h */,
+				8482EB691FCDFA9C002310C7 /* dispatcher.h */,
+				8482EB6A1FCDFA9C002310C7 /* event.h */,
+				8482EB6C1FCDFA9C002310C7 /* typed_map.h */,
+			);
+			path = safe_event;
+			sourceTree = "<group>";
+		};
 		84845AED1F1D40130073978C /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -1804,6 +1810,8 @@
 				84A3EBF91F88289E00EDCCB8 /* game.cpp */,
 				8418F55F1F894C5700DDA4B1 /* game-level.h */,
 				8418F55E1F894C5700DDA4B1 /* game-level.cpp */,
+				8482EB6D1FCDFBBA002310C7 /* game-events.h */,
+				840CB7881FCE109500657CA6 /* event-dispatcher.h */,
 			);
 			path = Game;
 			sourceTree = "<group>";
@@ -1844,63 +1852,6 @@
 			);
 			name = SpriteRendering;
 			path = Shaders/SpriteRendering;
-			sourceTree = "<group>";
-		};
-		84BB90761F6E977B00D0A447 /* Cubemaps */ = {
-			isa = PBXGroup;
-			children = (
-				84BB90771F6E977B00D0A447 /* Skyboxes */,
-			);
-			path = Cubemaps;
-			sourceTree = "<group>";
-		};
-		84BB90771F6E977B00D0A447 /* Skyboxes */ = {
-			isa = PBXGroup;
-			children = (
-				84BB90881F6EA48700D0A447 /* skies */,
-				84BB90781F6E977B00D0A447 /* hw_morning */,
-				84BB907F1F6E977B00D0A447 /* mp_morningdew */,
-			);
-			path = Skyboxes;
-			sourceTree = "<group>";
-		};
-		84BB90781F6E977B00D0A447 /* hw_morning */ = {
-			isa = PBXGroup;
-			children = (
-				84BB90791F6E977B00D0A447 /* back.tga */,
-				84BB907A1F6E977B00D0A447 /* bottom.tga */,
-				84BB907B1F6E977B00D0A447 /* front.tga */,
-				84BB907C1F6E977B00D0A447 /* left.tga */,
-				84BB907D1F6E977B00D0A447 /* right.tga */,
-				84BB907E1F6E977B00D0A447 /* top.tga */,
-			);
-			path = hw_morning;
-			sourceTree = "<group>";
-		};
-		84BB907F1F6E977B00D0A447 /* mp_morningdew */ = {
-			isa = PBXGroup;
-			children = (
-				84BB90801F6E977B00D0A447 /* back.tga */,
-				84BB90811F6E977B00D0A447 /* bottom.tga */,
-				84BB90821F6E977B00D0A447 /* front.tga */,
-				84BB90831F6E977B00D0A447 /* left.tga */,
-				84BB90841F6E977B00D0A447 /* right.tga */,
-				84BB90851F6E977B00D0A447 /* top.tga */,
-			);
-			path = mp_morningdew;
-			sourceTree = "<group>";
-		};
-		84BB90881F6EA48700D0A447 /* skies */ = {
-			isa = PBXGroup;
-			children = (
-				84BB90891F6EA48700D0A447 /* back.jpg */,
-				84BB908A1F6EA48700D0A447 /* bottom.jpg */,
-				84BB908B1F6EA48700D0A447 /* front.jpg */,
-				84BB908C1F6EA48700D0A447 /* left.jpg */,
-				84BB908D1F6EA48700D0A447 /* right.jpg */,
-				84BB908E1F6EA48700D0A447 /* top.jpg */,
-			);
-			path = skies;
 			sourceTree = "<group>";
 		};
 		84C70B5B1F5AD6C8006FF65D /* MysteryCup */ = {
@@ -1971,6 +1922,7 @@
 			files = (
 				8418F55D1F894BDB00DDA4B1 /* game-object.cpp in Sources */,
 				84D498401FC0DE4D00CBEBBB /* text-renderer.cpp in Sources */,
+				8482EB671FCDFA91002310C7 /* dispatcher.cpp in Sources */,
 				84845B1C1F1D44DF0073978C /* image_helper.c in Sources */,
 				8468BFCB1FC4BC1000F21A3A /* pass-through-power-up.cpp in Sources */,
 				8468BFAE1FC2032E00F21A3A /* live-component.cpp in Sources */,
@@ -2097,6 +2049,7 @@
 		35A0C1E51EA3859E006C34AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/assimp_4.0.1",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/glew_2.0.0",
@@ -2105,6 +2058,7 @@
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/SOIL/src",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/freetype",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include",
+					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/safe_event",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2114,6 +2068,7 @@
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/glm_0.9.8.4",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/SOIL/lib",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/freetype",
+					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/safe_event",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -2123,6 +2078,7 @@
 		35A0C1E61EA3859E006C34AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				HEADER_SEARCH_PATHS = (
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/assimp_4.0.1",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/glew_2.0.0",
@@ -2131,6 +2087,7 @@
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/SOIL/src",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/freetype",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/include",
+					"$(PROJECT_DIR)/OpenGL_01/Libraries/include/safe_event",
 				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2140,6 +2097,7 @@
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/glm_0.9.8.4",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/SOIL/lib",
 					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/freetype",
+					"$(PROJECT_DIR)/OpenGL_01/Libraries/lib/safe_event",
 				);
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";

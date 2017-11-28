@@ -30,7 +30,7 @@ public:
     std::vector<Brick*> Bricks;
     
     // Constructors
-    GameLevel() { }
+    GameLevel();
     GameLevel(TextureLoader* textureLoader);
     
     // Loads level from file
@@ -49,7 +49,6 @@ private:
     void init(std::vector<std::vector<GLuint>> tileData, GLuint levelWidth, GLuint levelHeight);
     
     TextureLoader* textureLoader;
-    CollisionDetector* collisionDetector;
 };
 
 #endif /* game_level_h */

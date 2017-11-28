@@ -7,8 +7,8 @@
 //
 
 #include "brick.h"
-
-#include <iostream>
+#include "game-events.h"
+#include "event-dispatcher.h"
 
 Brick::Brick(bool isSolid)
 : Collidable(isSolid)
@@ -30,7 +30,12 @@ ECollisionType Brick::GetCollisionType() const
 
 void Brick::HandleCollision(const ICollidable* other, Collision& collision)
 {
-//    std::cout << "[Brick::HandleCollision] with " << other.Sprite.ID;
-    
     Destroyed = !IsSolid();
+    
+    if(Destroyed)
+    {
+        BrickDestroyedEvent brickDestroyedEvent;
+        brickDestroyedEvent.SetBrick(this);
+        EventDispatcher::GetInstance().Dispatcher.trigger(brickDestroyedEvent);
+    }
 }

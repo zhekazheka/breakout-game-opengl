@@ -17,8 +17,8 @@ BallObject::BallObject(bool isSolid)
 : Collidable(isSolid), Radius(12.5f), Stuck(true), Sticky(GL_FALSE), PassThrough(GL_FALSE)
 { }
 
-BallObject::BallObject(bool isSolid, glm::vec2 pos, GLfloat radius, glm::vec2 velocity, Texture2D sprite)
-:  Collidable(isSolid, pos, glm::vec2(radius * 2, radius * 2), sprite, glm::vec3(1.0f), velocity), Radius(radius),
+BallObject::BallObject(bool isSolid, glm::vec2 pos, Texture2D sprite)
+:  Collidable(isSolid, pos, glm::vec2(BALL_RADIUS * 2, BALL_RADIUS * 2), sprite, glm::vec3(1.0f), INITIAL_BALL_VELOCITY), Radius(BALL_RADIUS),
    Stuck(true), Sticky(GL_FALSE), PassThrough(GL_FALSE)
 { }
 
