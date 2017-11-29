@@ -12,7 +12,7 @@
 #include "event-dispatcher.h"
 #include "game-events.h"
 
-PostProcessor::PostProcessor(Shader shader, GLuint width, GLuint height)
+PostProcessor::PostProcessor(Shader& shader, GLuint width, GLuint height)
 : PostProcessingShader(shader), Texture(), Width(width), Height(height), Confuse(GL_FALSE), Chaos(GL_FALSE), Shake(GL_FALSE)
 {
     // Initialize renderbuffer/framebuffer object

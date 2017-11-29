@@ -68,6 +68,7 @@ private:
     void ResetLevel();
     void ResetPlayer();
     void SetupGameEvents();
+    void LoadLevels();
     
     std::vector<std::unique_ptr<GameLevel>> levels;
     int levelIndex;

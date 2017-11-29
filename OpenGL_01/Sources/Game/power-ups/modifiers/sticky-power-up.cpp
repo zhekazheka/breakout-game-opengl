@@ -20,7 +20,7 @@ void StickyPowerUp::Activate()
 {
     PowerUp::Activate();
     
-    ballObject->Sticky = GL_TRUE;
+    ballObject->EnableSticky(true);
     player->Color = glm::vec3(1.0f, 0.5f, 1.0f);
 }
 
@@ -28,6 +28,6 @@ void StickyPowerUp::Deactivate()
 {
     PowerUp::Deactivate();
     
-    ballObject->Sticky = GL_FALSE;
+    ballObject->EnableSticky(false);
     player->Color = glm::vec3(1.0f);
 }

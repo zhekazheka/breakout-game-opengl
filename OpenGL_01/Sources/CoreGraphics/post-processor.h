@@ -25,16 +25,8 @@
 class PostProcessor
 {
 public:
-    // State
-    Shader PostProcessingShader;
-    Texture2D Texture;
-    GLuint Width, Height;
-    
-    // Options
-    GLboolean Confuse, Chaos, Shake;
-    
     // Constructor
-    PostProcessor(Shader shader, GLuint width, GLuint height);
+    PostProcessor(Shader& shader, GLuint width, GLuint height);
     
     // Prepares the postprocessor's framebuffer operations before rendering the game
     void BeginRender();
@@ -48,6 +40,14 @@ public:
     void Update(GLfloat deltaTime);
     
     void SetShakeTime(GLfloat shakeTime);
+    
+    // State
+    Shader PostProcessingShader;
+    Texture2D Texture;
+    GLuint Width, Height;
+    
+    // Options
+    GLboolean Confuse, Chaos, Shake;
 private:
     // Render state
     GLuint MSFBO, FBO; // MSFBO = Multisampled FBO. FBO is regular, used for blitting MS color-buffer to texture

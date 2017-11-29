@@ -56,7 +56,7 @@ GLboolean CheckCollision(GameObject &one, GameObject &two) // AABB - AABB collis
 Collision CheckCollision(BallObject &one, GameObject &two) // AABB - Circle collision
 {
     // Get center point circle first
-    glm::vec2 center(one.Position + one.Radius);
+    glm::vec2 center(one.Position + one.GetRadius());
     // Calculate AABB info (center, half-extents)
     glm::vec2 aabb_half_extents(two.Size.x / 2, two.Size.y / 2);
     glm::vec2 aabb_center(
@@ -71,7 +71,7 @@ Collision CheckCollision(BallObject &one, GameObject &two) // AABB - Circle coll
     // Retrieve vector between center circle and closest point AABB and check if length <= radius
     difference = closest - center;
     
-    if (glm::length(difference) <= one.Radius)
+    if (glm::length(difference) <= one.GetRadius())
     {
         return std::make_tuple(GL_TRUE, VectorDirection(difference), difference);
     }
@@ -93,7 +93,7 @@ GLboolean CheckCollision(Collidable &one, Collidable &two) // AABB - AABB collis
 Collision CheckCollision(BallObject &one, Collidable &two) // AABB - Circle collision
 {
     // Get center point circle first
-    glm::vec2 center(one.Position + one.Radius);
+    glm::vec2 center(one.Position + one.GetRadius());
     // Calculate AABB info (center, half-extents)
     glm::vec2 aabb_half_extents(two.Size.x / 2, two.Size.y / 2);
     glm::vec2 aabb_center(
@@ -108,7 +108,7 @@ Collision CheckCollision(BallObject &one, Collidable &two) // AABB - Circle coll
     // Retrieve vector between center circle and closest point AABB and check if length <= radius
     difference = closest - center;
     
-    if (glm::length(difference) <= one.Radius)
+    if (glm::length(difference) <= one.GetRadius())
     {
         return std::make_tuple(GL_TRUE, VectorDirection(difference), difference);
     }

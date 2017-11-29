@@ -28,11 +28,6 @@ const GLfloat BALL_RADIUS = 12.5f;
 class BallObject : public Collidable
 {
 public:
-    // Ball state
-    GLfloat Radius;
-    GLboolean Stuck;
-    GLboolean Sticky, PassThrough;
-    
     // Constructor(s)
     BallObject(bool isSolid);
     BallObject(bool isSolid, glm::vec2 pos, Texture2D sprite);
@@ -45,6 +40,20 @@ public:
     bool IsDynamic() const;
     ECollisionType GetCollisionType() const;
     void HandleCollision(const ICollidable* other, Collision& collision);
+    
+    void EnablePassThrough(bool enable);
+    void EnableSticky(bool enable);
+    
+    float GetRadius() const;
+    bool GetStuck() const;
+    void SetStuck(bool isStuck);
+    
+private:
+    // Ball state
+    float radius;
+    bool isStuck;
+    bool isSticky;
+    bool isPassingThrough;
 };
 
 #endif /* ball_object_h */

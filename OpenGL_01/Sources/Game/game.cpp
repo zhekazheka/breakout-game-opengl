@@ -73,19 +73,7 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader, GameSt
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/PowerUps/powerup_confuse.png", GL_TRUE, "powerUpConfuse");
     textureLoader->LoadTexture("OpenGL_01/Resources/Textures/PowerUps/powerup_chaos.png", GL_TRUE, "powerUpChaos");
     
-    // Load levels
-    for(int i = 0; i < 4; ++i)
-    {
-        GameLevel* level = new GameLevel(textureLoader);
-        
-        std::stringstream ss;
-        ss << "OpenGL_01/Resources/Levels/" << i << ".lvl";
-        const std::string& tmp = ss.str();
-        const char* filePath = tmp.c_str();
-        level->Load(filePath, this->Width, this->Height * 0.5);
-        
-        this->levels.push_back(std::unique_ptr<GameLevel>(level));
-    }
+    LoadLevels();
     
     glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2,
                                     this->Height - PLAYER_SIZE.y);
@@ -108,12 +96,29 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader, GameSt
     
     // current level
     this->levelIndex = 0;
+    
     Start();
 }
 
 void Game::SetupGameEvents()
 {
     EventDispatcher::GetInstance().Dispatcher.add_event<BrickDestroyedEvent>();
+}
+
+void Game::LoadLevels()
+{
+    for(int i = 0; i < 4; ++i)
+    {
+        GameLevel* level = new GameLevel(textureLoader);
+        
+        std::stringstream ss;
+        ss << "OpenGL_01/Resources/Levels/" << i << ".lvl";
+        const std::string& tmp = ss.str();
+        const char* filePath = tmp.c_str();
+        level->Load(filePath, this->Width, this->Height * 0.5);
+        
+        this->levels.push_back(std::unique_ptr<GameLevel>(level));
+    }
 }
 
 void Game::Start()
@@ -127,7 +132,7 @@ void Game::Update(GLfloat dt)
     
     collisionDetector->Update(dt);
     
-    particleGenerator->Update(dt, *ball, 2, glm::vec2(ball->Radius / 2));
+    particleGenerator->Update(dt, *ball, 2, glm::vec2(ball->GetRadius() / 2));
     
     if (ball->Position.y >= this->Height) // Did ball reach bottom edge?
     {
@@ -186,7 +191,7 @@ void Game::ProcessInput(GLfloat dt)
             if (player->Position.x >= 0)
             {
                 player->Position.x -= velocity;
-                if(ball->Stuck)
+                if(ball->GetStuck())
                 {
                     ball->Position.x -= velocity;
                 }
@@ -197,7 +202,7 @@ void Game::ProcessInput(GLfloat dt)
             if (player->Position.x <= this->Width - player->Size.x)
             {
                 player->Position.x += velocity;
-                if(ball->Stuck)
+                if(ball->GetStuck())
                 {
                     ball->Position.x += velocity;
                 }
@@ -205,7 +210,7 @@ void Game::ProcessInput(GLfloat dt)
         }
         if(this->Keys[GLFW_KEY_SPACE])
         {
-            ball->Stuck = false;
+            ball->SetStuck(false);
         }
     }
     

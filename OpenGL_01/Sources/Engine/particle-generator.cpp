@@ -8,7 +8,7 @@
 
 #include "particle-generator.h"
 
-ParticleGenerator::ParticleGenerator(Shader shader, Texture2D texture, GLuint amount)
+ParticleGenerator::ParticleGenerator(Shader& shader, Texture2D texture, GLuint amount)
 : shader(shader), texture(texture), amount(amount)
 {
     this->init();

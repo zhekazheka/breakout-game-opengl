@@ -20,14 +20,12 @@ void PassThroughPowerUp::Activate()
 {
     PowerUp::Activate();
     
-    ballObject->PassThrough = GL_TRUE;
-    ballObject->Color = glm::vec3(1.0f, 0.5f, 0.5f);
+    ballObject->EnablePassThrough(true);
 }
 
 void PassThroughPowerUp::Deactivate()
 {
     PowerUp::Deactivate();
     
-    ballObject->PassThrough = GL_FALSE;
-    ballObject->Color = glm::vec3(1.0f);
+    ballObject->EnablePassThrough(false);
 }

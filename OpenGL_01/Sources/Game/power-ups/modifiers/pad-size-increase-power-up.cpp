@@ -21,8 +21,9 @@ void PadSizeIncreasePowerUp::Activate()
     PowerUp::Activate();
     
     player->Size.x += 50;
-    ballObject->Sticky = GL_TRUE;
     player->Color = glm::vec3(1.0f, 0.5f, 1.0f);
+    
+    ballObject->EnableSticky(true);
 }
 
 void PadSizeIncreasePowerUp::Deactivate()
@@ -30,6 +31,7 @@ void PadSizeIncreasePowerUp::Deactivate()
     PowerUp::Deactivate();
  
     player->Size.x = std::max(PLAYER_SIZE.x, player->Size.x - 50);
-    ballObject->Sticky = GL_FALSE;
     player->Color = glm::vec3(1.0f);
+    
+    ballObject->EnableSticky(false);
 }
