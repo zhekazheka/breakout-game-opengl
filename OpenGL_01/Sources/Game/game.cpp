@@ -22,31 +22,20 @@
 
 Game::Game(GLuint width, GLuint height)
 : State(GAME_MENU), Keys(), Width(width), Height(height)
-{
-    
-}
+{}
 
 Game::~Game()
-{
-    delete spriteRenderer;
-    delete player;
-    delete ball;
-    delete particleGenerator;
-    delete postProcessor;
-    delete textRenderer;
-    delete powerUpsController;
-    delete powerUpsFactory;
-    delete collisionDetector;
-}
+{}
 
-void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
+void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader, GameState initialState)
 {
     this->shaderLoader = shaderLoader;
     this->textureLoader = textureLoader;
+    State = initialState;
     
     SetupGameEvents();
     
-    this->collisionDetector = new CollisionDetector();
+    this->collisionDetector = std::unique_ptr<CollisionDetector>(new CollisionDetector());
     
     Shader spriteShader = shaderLoader->LoadShader("OpenGL_01/Shaders/SpriteRendering/sprite.vert",
                                                    "OpenGL_01/Shaders/SpriteRendering/sprite.frag", nullptr, "sprite");
@@ -67,7 +56,7 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     particleShader.SetMatrix4("projection", projection);
     
     // Set render-specific controls
-    spriteRenderer = new SpriteRenderer(spriteShader);
+    spriteRenderer = std::unique_ptr<SpriteRenderer>(new SpriteRenderer(spriteShader));
     
     // Load textures
     Texture2D ballTexture = textureLoader->LoadTexture("OpenGL_01/Resources/Textures/sphere.png", GL_TRUE, "face");
@@ -100,22 +89,22 @@ void Game::Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader)
     
     glm::vec2 playerPos = glm::vec2(this->Width / 2 - PLAYER_SIZE.x / 2,
                                     this->Height - PLAYER_SIZE.y);
-    player = new Player(true, playerPos, paddleTexture, 3);
-    collisionDetector->RegisterCollider(player);
+    player = std::unique_ptr<Player>(new Player(true, playerPos, paddleTexture, 3));
+    collisionDetector->RegisterCollider(player.get());
     
     glm::vec2 ballPos = playerPos + glm::vec2(PLAYER_SIZE.x / 2 - BALL_RADIUS, -BALL_RADIUS * 2);
-    ball = new BallObject(true, ballPos, ballTexture);
-    collisionDetector->RegisterCollider(ball);
+    ball = std::unique_ptr<BallObject>(new BallObject(true, ballPos, ballTexture));
+    collisionDetector->RegisterCollider(ball.get());
     
-    particleGenerator = new ParticleGenerator(particleShader, particleTexture, 500);
+    particleGenerator = std::unique_ptr<ParticleGenerator>(new ParticleGenerator(particleShader, particleTexture, 500));
     
-    postProcessor = new PostProcessor(postProcessorShader, this->Width, this->Height);
+    postProcessor = std::unique_ptr<PostProcessor>(new PostProcessor(postProcessorShader, this->Width, this->Height));
     
-    textRenderer = new TextRenderer(this->Width, this->Height, shaderLoader);
+    textRenderer = std::unique_ptr<TextRenderer>(new TextRenderer(this->Width, this->Height, shaderLoader));
     textRenderer->Load("OpenGL_01/Resources/Fonts/arial.ttf", 24);
     
-    powerUpsFactory = new PowerUpsFactory(textureLoader, postProcessor);
-    powerUpsController = new PowerUpsController(powerUpsFactory, player, ball, spriteRenderer);
+    powerUpsFactory = std::unique_ptr<PowerUpsFactory>(new PowerUpsFactory(textureLoader, postProcessor.get()));
+    powerUpsController = std::unique_ptr<PowerUpsController>(new PowerUpsController(powerUpsFactory.get(), player.get(), ball.get(), spriteRenderer.get()));
     
     // current level
     this->levelIndex = 0;
@@ -129,7 +118,7 @@ void Game::SetupGameEvents()
 
 void Game::Start()
 {    
-    levels[levelIndex]->Start(collisionDetector);
+    levels[levelIndex]->Start(collisionDetector.get());
 }
 
 void Game::Update(GLfloat dt)
@@ -285,7 +274,7 @@ void Game::Render()
 void Game::ResetLevel()
 {
     player->GetLiveComponent()->Reset();
-    levels[levelIndex]->Reset(collisionDetector);
+    levels[levelIndex]->Reset(collisionDetector.get());
 }
 
 void Game::ResetPlayer()

@@ -23,7 +23,7 @@ const GLuint SCREEN_WIDTH = 800;
 // The height of the screen
 const GLuint SCREEN_HEIGHT = 600;
 
-Game Breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
+Game breakout(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 int main(int argc, const char * argv[])
 {
@@ -55,30 +55,25 @@ int main(int argc, const char * argv[])
         return -1;
     }
     
-    // register callbacks
-    glfwSetKeyCallback(window, key_callback);
-//    glfwSetCursorPosCallback(window, mouse_callback);
-//    glfwSetScrollCallback(window, scroll_callback);
-    
     // OpenGL configuration
     glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
     glEnable(GL_CULL_FACE);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     
-    // Create resources management tools
-    ShaderLoader shaderLoader;
-    TextureLoader textureLoader;
+    // register input callbacks
+    glfwSetKeyCallback(window, key_callback);
+    //    glfwSetCursorPosCallback(window, mouse_callback);
+    //    glfwSetScrollCallback(window, scroll_callback);
     
-    // Initialize game
-    Breakout.Init(&shaderLoader, &textureLoader);
+    std::unique_ptr<ShaderLoader> shaderLoader(new ShaderLoader);
+    std::unique_ptr<TextureLoader> textureLoader(new TextureLoader);
+    
+    breakout.Init(shaderLoader.get(), textureLoader.get(), GAME_ACTIVE);
     
     // DeltaTime variables
     GLfloat deltaTime = 0.0f;
     GLfloat lastFrame = 0.0f;
-    
-    // Start Game within Menu State
-    Breakout.State = GAME_ACTIVE;
     
     while (!glfwWindowShouldClose(window))
     {
@@ -90,22 +85,22 @@ int main(int argc, const char * argv[])
         
         //deltaTime = 0.001f;
         // Manage user input
-        Breakout.ProcessInput(deltaTime);
+        breakout.ProcessInput(deltaTime);
         
         // Update Game state
-        Breakout.Update(deltaTime);
+        breakout.Update(deltaTime);
         
         // Render
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        Breakout.Render();
+        breakout.Render();
         
         glfwSwapBuffers(window);
     }
     
     // Delete all resources as loaded using the resource manager
-    shaderLoader.Clear();
-    textureLoader.Clear();
+    shaderLoader->Clear();
+    textureLoader->Clear();
     
     glfwTerminate();
     
@@ -124,12 +119,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
     {
         if (action == GLFW_PRESS)
         {
-            Breakout.Keys[key] = GL_TRUE;
+            breakout.Keys[key] = GL_TRUE;
         }
         else if (action == GLFW_RELEASE)
         {
-            Breakout.Keys[key] = GL_FALSE;
-            Breakout.KeysProcessed[key] = GL_FALSE;
+            breakout.Keys[key] = GL_FALSE;
+            breakout.KeysProcessed[key] = GL_FALSE;
         }
     }
 }

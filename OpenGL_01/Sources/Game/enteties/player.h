@@ -25,13 +25,12 @@ public:
     ~Player();
     
     LiveComponent* GetLiveComponent() const;
-    
     bool IsDynamic() const;
     ECollisionType GetCollisionType() const;
     void HandleCollision(const ICollidable* other, Collision& collision);
     
 private:
-    LiveComponent* liveComponent;
+    std::unique_ptr<LiveComponent> liveComponent;
 };
 
 #endif /* player_h */

@@ -11,19 +11,15 @@
 #include <iostream>
 
 Player::Player(bool isSolid, glm::vec2 startPosition, Texture2D texture, int initialLives)
-: Collidable(isSolid, startPosition, PLAYER_SIZE, texture)
-{
-    liveComponent = new LiveComponent(initialLives, initialLives);
-}
+: Collidable(isSolid, startPosition, PLAYER_SIZE, texture), liveComponent( new LiveComponent(initialLives, initialLives))
+{}
 
 Player::~Player()
-{
-    delete liveComponent;
-}
+{}
 
 LiveComponent* Player::GetLiveComponent() const
 {
-    return liveComponent;
+    return liveComponent.get();
 }
 
 bool Player::IsDynamic() const
@@ -37,7 +33,4 @@ ECollisionType Player::GetCollisionType() const
 }
 
 void Player::HandleCollision(const ICollidable* other, Collision& collision)
-{
-//    std::cout << "[Player::HandleCollision] with " << other.Sprite.ID;
-}
-
+{}

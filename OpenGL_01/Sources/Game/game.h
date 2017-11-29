@@ -56,7 +56,7 @@ public:
     ~Game();
     
     // Initialize game state (load all shaders/textures/levels)
-    void Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader);
+    void Init(ShaderLoader* shaderLoader, TextureLoader* textureLoader, GameState initialState);
     
     // GameLoop
     void ProcessInput(GLfloat dt);
@@ -74,18 +74,20 @@ private:
     
     ShaderLoader* shaderLoader;
     TextureLoader* textureLoader;
-    SpriteRenderer* spriteRenderer;
-    TextRenderer* textRenderer;
     
-    Player* player;
-    BallObject* ball;
-    ParticleGenerator* particleGenerator;
-    PostProcessor* postProcessor;
     
-    PowerUpsController* powerUpsController;
-    PowerUpsFactory* powerUpsFactory;
+    std::unique_ptr<SpriteRenderer> spriteRenderer;
+    std::unique_ptr<TextRenderer> textRenderer;
     
-    CollisionDetector* collisionDetector;
+    std::unique_ptr<Player> player;
+    std::unique_ptr<BallObject> ball;
+    std::unique_ptr<ParticleGenerator> particleGenerator;
+    std::unique_ptr<PostProcessor> postProcessor;
+    
+    std::unique_ptr<PowerUpsController> powerUpsController;
+    std::unique_ptr<PowerUpsFactory> powerUpsFactory;
+    
+    std::unique_ptr<CollisionDetector> collisionDetector;
 };
 
 #endif /* Game_h */
